@@ -1,57 +1,64 @@
-# React + TypeScript + Vite
+# 🔮 PsyChing - 人格卦象映射系统
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个创新的心理测试应用，将现代心理学理论与中国传统易经文化相结合，通过贝叶斯推理引擎为用户提供个性化的人格分析和卦象解读。
 
-Currently, two official plugins are available:
+An innovative psychological assessment application that combines modern psychology theories with traditional Chinese I-Ching culture, providing personalized personality analysis and hexagram interpretations through a Bayesian inference engine.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ 核心特性 / Key Features
 
-## Expanding the ESLint configuration
+- 🧠 **智能测评 / Intelligent Assessment**: 基于贝叶斯推理算法的动态问题生成
+- 📊 **科学分析 / Scientific Analysis**: 多维度人格特征评估与可视化展示
+- 🎯 **个性化结果 / Personalized Results**: 结合易经卦象的深度人格解读
+- 📱 **响应式设计 / Responsive Design**: 完美适配桌面端和移动端
+- 🌐 **多语言支持 / Multi-language Support**: 中英文双语界面
+- 💾 **历史记录 / History Tracking**: 测试结果本地存储与回顾功能
+- 🎨 **现代UI / Modern UI**: 基于Tailwind CSS的精美界面设计
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ 技术栈 / Tech Stack
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **Frontend**: React 18 + TypeScript + Vite
+- **Styling**: Tailwind CSS + Lucide Icons
+- **State Management**: Zustand
+- **Routing**: React Router v7
+- **Build Tool**: Vite
+- **Deployment**: Vercel
+
+## 🚀 快速开始 / Quick Start
+
+```bash
+# 安装依赖 / Install dependencies
+npm install
+
+# 启动开发服务器 / Start development server
+npm run dev
+
+# 构建生产版本 / Build for production
+npm run build
+
+# 预览生产版本 / Preview production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📁 项目结构 / Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  extends: [
-    // other configs...
-    // Enable lint rules for React
-    reactX.configs['recommended-typescript'],
-    // Enable lint rules for React DOM
-    reactDom.configs.recommended,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
 ```
+src/
+├── components/     # 可复用组件
+├── pages/         # 页面组件
+├── utils/         # 工具函数
+├── store/         # 状态管理
+├── types/         # TypeScript 类型定义
+├── data/          # 数据文件
+└── contexts/      # React Context
+```
+
+## 🎯 适用人群 / Perfect for
+
+- 心理学爱好者 / Psychology enthusiasts
+- 对AI驱动应用感兴趣的开发者 / Developers interested in AI-driven applications
+- 文化心理学研究者 / Researchers exploring cultural psychology
+- 对人格测评工具感兴趣的用户 / Anyone curious about personality assessment tools
+
+## 📄 许可证 / License
+
+MIT License - 详见 [LICENSE](LICENSE) 文件
