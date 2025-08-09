@@ -23,7 +23,7 @@ import {
 import { toast } from 'sonner';
 import { TRIGRAMS } from '../data/hexagramDatabase';
 import { TrigramType } from '../types';
-import { bayesianEngine } from '../utils/bayesianEngine';
+import { enhancedBayesianEngine } from '../utils/enhancedBayesianEngine';
 
 // 卦象描述函数
 const getHexagramDescription = (hexagramName: string): string => {
@@ -241,7 +241,7 @@ const Result = () => {
     const lowerTrigram = hexagram.lower_trigram;
     
     // 从贝叶斯引擎获取实际的概率分布
-    const probabilities = bayesianEngine.getCurrentProbabilities();
+    const probabilities = enhancedBayesianEngine.getCurrentProbabilities();
     
     // 计算相关卦象的匹配概率
     const upperProb = probabilities.outer_behavior[upperTrigram as keyof typeof probabilities.outer_behavior] || 0.125;
@@ -481,7 +481,7 @@ const Result = () => {
                   <span className="text-sm text-slate-600">内在动机：</span>
                   <span className="font-medium text-slate-900 ml-1">{TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.name_zh || currentResult.hexagram.lower_trigram}</span>
                   <div className="text-xs text-blue-600 mt-1">概率: {(() => {
-                    const probs = bayesianEngine.getCurrentProbabilities();
+                    const probs = enhancedBayesianEngine.getCurrentProbabilities();
                     const trigram = currentResult.hexagram.lower_trigram as keyof typeof probs.inner_motivation;
                     return Math.round((probs.inner_motivation[trigram] || 0.125) * 100);
                   })()}%</div>
@@ -494,7 +494,7 @@ const Result = () => {
                   <span className="text-sm text-slate-600">外在行为：</span>
                   <span className="font-medium text-slate-900 ml-1">{TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.name_zh || currentResult.hexagram.upper_trigram}</span>
                   <div className="text-xs text-purple-600 mt-1">概率: {(() => {
-                    const probs = bayesianEngine.getCurrentProbabilities();
+                    const probs = enhancedBayesianEngine.getCurrentProbabilities();
                     const trigram = currentResult.hexagram.upper_trigram as keyof typeof probs.outer_behavior;
                     return Math.round((probs.outer_behavior[trigram] || 0.125) * 100);
                   })()}%</div>

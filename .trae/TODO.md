@@ -1,7 +1,7 @@
 # TODO:
 
-- [x] 1: 查看Test.tsx文件，了解当前时间显示的实现 (priority: High)
-- [x] 2: 添加计时器状态管理，从测试开始时计时 (priority: High)
-- [x] 3: 修改时间显示逻辑，将预计剩余时间改为答题时间计时器 (priority: High)
-- [x] 4: 设置显示格式为分:秒（如 01:23） (priority: Medium)
-- [x] 5: 确保计时器在测试过程中正常运行 (priority: Medium)
+- [x] 28: 在Test.tsx中添加expertMode状态管理 (priority: High)
+- [x] 30: 修改EnhancedAdaptiveTestInterface组件接口，支持外部控制showAdvancedMetrics (priority: High)
+- [x] 29: 在头部导航区域添加专家模式切换按钮 (priority: High)
+- [x] 31: 将expertMode状态传递给EnhancedAdaptiveTestInterface组件 (priority: High)
+- [x] 32: 测试专家模式切换功能和置信度显示 (priority: Medium)

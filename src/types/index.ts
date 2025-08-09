@@ -32,6 +32,22 @@ export interface QuestionOption {
 // 题目类型
 export type QuestionType = 'single_choice';
 
+// 测试阶段枚举
+export enum TestStage {
+  EXPLORATION = 'exploration',
+  DISCRIMINATION = 'discrimination', 
+  CONFIRMATION = 'confirmation',
+  COMPLETED = 'completed'
+}
+
+// 扩展题目接口
+export interface ExtendedQuestion extends Question {
+  description_zh?: string;
+  subcategory?: string;
+  weight?: number;
+  informationGain?: number;
+}
+
 export interface Question {
   id: string;
   category: TestPhase; // 内在动机 | 外在行为

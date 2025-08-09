@@ -9,7 +9,7 @@ import {
   Language,
   LocalStorageData 
 } from '../types';
-import { bayesianEngine } from '../utils/bayesianEngine';
+import { enhancedBayesianEngine } from '../utils/enhancedBayesianEngine';
 import { HexagramAnalysisEngine } from '../utils/hexagramAnalysis';
 import { HexagramMapper } from '../data/hexagramDatabase';
 import { saveToLocalStorage, loadFromLocalStorage } from '../utils/localStorage';
@@ -83,14 +83,14 @@ export const useTestStore = create<TestState>((set, get) => ({
   // 开始测试
   startTest: async () => {
     try {
-      set({ isLoading: true, error: null });
+      set({ isLoading: true, error: null, isTestActive: true });
       
       // 等待题库加载完成
-      console.log('Waiting for question bank to load...');
-      await bayesianEngine.waitForLoad();
+      console.log('Waiting for enhanced question bank to load...');
+      await enhancedBayesianEngine.waitForLoad();
       
       // 检查加载状态
-      const loadingStatus = bayesianEngine.getLoadingStatus();
+      const loadingStatus = enhancedBayesianEngine.getLoadingStatus();
       if (loadingStatus.error) {
         throw new Error(`题库加载失败: ${loadingStatus.error}`);
       }
@@ -99,13 +99,13 @@ export const useTestStore = create<TestState>((set, get) => ({
         throw new Error('题库未加载完成');
       }
       
-      console.log('Question bank loaded successfully, starting test...');
+      console.log('Enhanced question bank loaded successfully, starting adaptive test...');
       
-      // 重置贝叶斯引擎
-      bayesianEngine.reset();
+      // 重置增强版贝叶斯引擎
+      enhancedBayesianEngine.reset();
       
       // 获取第一个问题
-      const firstQuestion = bayesianEngine.getNextQuestion(get().language);
+      const firstQuestion = enhancedBayesianEngine.getNextQuestion(get().language);
       if (!firstQuestion) {
         throw new Error('无法获取测试题目，请检查题库是否正确加载');
       }
@@ -122,12 +122,12 @@ export const useTestStore = create<TestState>((set, get) => ({
         currentQuestion: firstQuestion,
         answers: [],
         probability_distribution: {
-          inner_motivation: bayesianEngine.getCurrentProbabilities().inner_motivation,
-          outer_behavior: bayesianEngine.getCurrentProbabilities().outer_behavior
+          inner_motivation: enhancedBayesianEngine.getCurrentProbabilities().inner_motivation,
+          outer_behavior: enhancedBayesianEngine.getCurrentProbabilities().outer_behavior
         },
         probability_distributions: {
-          inner_motivation: bayesianEngine.getCurrentProbabilities().inner_motivation,
-          outer_behavior: bayesianEngine.getCurrentProbabilities().outer_behavior
+          inner_motivation: enhancedBayesianEngine.getCurrentProbabilities().inner_motivation,
+          outer_behavior: enhancedBayesianEngine.getCurrentProbabilities().outer_behavior
         },
         is_completed: false
       };
@@ -171,8 +171,8 @@ export const useTestStore = create<TestState>((set, get) => ({
         answered_at: new Date().toISOString()
       };
       
-      // 更新贝叶斯引擎概率
-      bayesianEngine.updateProbabilities(answer);
+      // 更新增强版贝叶斯引擎概率
+      enhancedBayesianEngine.updateProbabilities(answer);
       
       // 更新会话状态
       const updatedSession: TestSession = {
@@ -180,13 +180,13 @@ export const useTestStore = create<TestState>((set, get) => ({
         answers: [...state.currentSession.answers, answer],
         current_question_index: state.currentSession.current_question_index + 1,
         probability_distributions: {
-          inner_motivation: bayesianEngine.getCurrentProbabilities().inner_motivation,
-          outer_behavior: bayesianEngine.getCurrentProbabilities().outer_behavior
+          inner_motivation: enhancedBayesianEngine.getCurrentProbabilities().inner_motivation,
+          outer_behavior: enhancedBayesianEngine.getCurrentProbabilities().outer_behavior
         }
       };
       
       // 获取下一个问题
-      const nextQuestion = bayesianEngine.getNextQuestion(state.language);
+      const nextQuestion = enhancedBayesianEngine.getNextQuestion(state.language);
       
       if (nextQuestion) {
         // 继续测试
@@ -232,8 +232,8 @@ export const useTestStore = create<TestState>((set, get) => ({
       
       set({ isLoading: true });
       
-      // 获取最终的贝叶斯分析结果
-      const finalResult = bayesianEngine.getFinalResult();
+      // 获取最终的增强版贝叶斯分析结果
+      const finalResult = enhancedBayesianEngine.getFinalResult();
       
       // 生成卦象分析
       const analysisResult = HexagramAnalysisEngine.generateAnalysis(
@@ -300,7 +300,7 @@ export const useTestStore = create<TestState>((set, get) => ({
   
   // 重置测试
   resetTest: () => {
-    bayesianEngine.reset();
+    enhancedBayesianEngine.reset();
     set({
       currentSession: null,
       currentQuestion: null,
@@ -341,7 +341,7 @@ export const useTestStore = create<TestState>((set, get) => ({
       return null;
     }
     
-    return bayesianEngine.getProgress();
+    return enhancedBayesianEngine.getProgress();
   },
   
   // 测试CSV文件访问
