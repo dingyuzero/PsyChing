@@ -1,7 +1,8 @@
 # TODO:
 
-- [x] 28: 在Test.tsx中添加expertMode状态管理 (priority: High)
-- [x] 30: 修改EnhancedAdaptiveTestInterface组件接口，支持外部控制showAdvancedMetrics (priority: High)
-- [x] 29: 在头部导航区域添加专家模式切换按钮 (priority: High)
-- [x] 31: 将expertMode状态传递给EnhancedAdaptiveTestInterface组件 (priority: High)
-- [x] 32: 测试专家模式切换功能和置信度显示 (priority: Medium)
+- [x] 39: 检查当前Git状态 (priority: High)
+- [x] 40: 如果没有Git仓库则初始化 (priority: High)
+- [x] 41: 检查并配置.gitignore文件 (priority: High)
+- [ ] 42: 添加所有文件到暂存区 (**IN PROGRESS**) (priority: High)
+- [ ] 43: 提交更改 (priority: High)
+- [ ] 44: 添加远程仓库并推送到GitHub (priority: High)

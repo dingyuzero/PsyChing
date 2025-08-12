@@ -35,6 +35,7 @@ const Test = () => {
   const [convergenceScore, setConvergenceScore] = useState(0);
   const [informationGain, setInformationGain] = useState(0);
   const [stageTransitionInfo, setStageTransitionInfo] = useState<any>(null);
+  const [showProbabilityDistribution, setShowProbabilityDistribution] = useState(true);
   
   // 初始化测试
   useEffect(() => {
@@ -69,17 +70,17 @@ const Test = () => {
       console.log('⏰ 更新时间:', debugData.timestamp);
       console.log('\n📊 题库统计信息:');
       console.log('  - 总题数:', questionBankStats?.total || 'N/A');
-      console.log('  - 内在动机题数:', questionBankStats?.inner_motivation || 'N/A');
-      console.log('  - 外在行为题数:', questionBankStats?.outer_behavior || 'N/A');
-      console.log('  - 加载状态:', questionBankStats?.loaded ? '✅ 已加载' : '❌ 未加载');
+      console.log('  - 内在动机题数:', questionBankStats?.by_category?.inner_motivation || 'N/A');
+        console.log('  - 外在行为题数:', questionBankStats?.by_category?.outer_behavior || 'N/A');
+        console.log('  - 加载状态:', questionBankStats ? '✅ 已加载' : '❌ 未加载');
       
       console.log('\n📈 使用统计信息:');
-      console.log('  - 已使用题目数:', detailedStats?.usedQuestions || 0);
-      console.log('  - 剩余题目数:', detailedStats?.remainingQuestions || 0);
-      console.log('  - 当前测试阶段:', detailedStats?.currentStage || 'N/A');
-      console.log('  - 当前自适应相位:', detailedStats?.currentPhase || 'N/A');
-      console.log('  - 阶段题目计数:', detailedStats?.stageQuestionCount || 0);
-      console.log('  - 相位题目计数:', detailedStats?.phaseQuestionCount || 0);
+      console.log('  - 已使用题目数:', detailedStats?.used || 0);
+        console.log('  - 剩余题目数:', detailedStats?.remaining || 0);
+      console.log('  - 当前测试阶段:', detailedStats?.current_stage || 'N/A');
+        console.log('  - 当前自适应相位:', detailedStats?.current_phase || 'N/A');
+      console.log('  - 当前阶段:', detailedStats?.current_stage || 'unknown');
+      console.log('  - 当前相位:', detailedStats?.current_phase || 'unknown');
       
       console.log('\n⚙️ 测试配置:');
       console.log('  - 探索阶段题数:', config?.explorationQuestions || 'N/A');
@@ -122,10 +123,10 @@ const Test = () => {
       console.log('  置信度指标:', confidenceMetrics);
       
       console.log('\n💡 诊断建议:');
-      if (!questionBankStats?.loaded) {
+      if (!questionBankStats) {
         console.log('  ⚠️ 题库未正确加载，请检查CSV文件');
       }
-      if ((detailedStats?.usedQuestions || 0) > (questionBankStats?.total || 0) * 0.8) {
+      if ((detailedStats?.used || 0) > (questionBankStats?.total || 0) * 0.8) {
         console.log('  ⚠️ 已使用题目过多，可能出现重复');
       }
       if ((config?.explorationQuestions || 0) + (config?.discriminationQuestions || 0) + (config?.confirmationQuestions || 0) < 10) {
@@ -497,10 +498,10 @@ const Test = () => {
                   <h4 className="font-semibold text-gray-800 mb-2">📊 使用统计</h4>
                   {debugInfo.detailedStats && (
                     <div className="space-y-1 text-gray-600">
-                      <p>已使用题目: <span className="font-medium text-orange-600">{debugInfo.detailedStats.usedQuestions || 0}</span></p>
-                      <p>剩余题目: <span className="font-medium text-green-600">{debugInfo.detailedStats.remainingQuestions || 0}</span></p>
-                      <p>当前阶段: <span className="font-medium text-indigo-600">{debugInfo.detailedStats.currentStage || 'N/A'}</span></p>
-                      <p>当前相位: <span className="font-medium text-pink-600">{debugInfo.detailedStats.currentPhase || 'N/A'}</span></p>
+                      <p>已使用题目: <span className="font-medium text-orange-600">{debugInfo.detailedStats.used || 0}</span></p>
+                        <p>剩余题目: <span className="font-medium text-green-600">{debugInfo.detailedStats.remaining || 0}</span></p>
+                      <p>当前阶段: <span className="font-medium text-indigo-600">{debugInfo.detailedStats.current_stage || 'N/A'}</span></p>
+                <p>当前相位: <span className="font-medium text-pink-600">{debugInfo.detailedStats.current_phase || 'N/A'}</span></p>
                     </div>
                   )}
                 </div>
@@ -624,19 +625,48 @@ const Test = () => {
             </div>
 
             {/* 标准界面：概率分布可视化 */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-              <ProbabilityVisualization
-                probabilities={enhancedBayesianEngine.getCurrentProbabilities().inner_motivation}
-                title="内在动机概率分布"
-                colorScheme="blue"
-                compact={true}
-              />
-              <ProbabilityVisualization
-                probabilities={enhancedBayesianEngine.getCurrentProbabilities().outer_behavior}
-                title="外在行为概率分布"
-                colorScheme="purple"
-                compact={true}
-              />
+            <div className="mb-6">
+              {/* 概率分布开关按钮 */}
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-slate-800">概率分布可视化</h3>
+                <button
+                  onClick={() => setShowProbabilityDistribution(!showProbabilityDistribution)}
+                  className={`flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                    showProbabilityDistribution
+                      ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
+                  <div className={`w-4 h-4 mr-2 rounded-full border-2 transition-all duration-200 ${
+                    showProbabilityDistribution
+                      ? 'bg-blue-500 border-blue-500'
+                      : 'bg-white border-slate-300'
+                  }`}>
+                    {showProbabilityDistribution && (
+                      <div className="w-full h-full rounded-full bg-white transform scale-50"></div>
+                    )}
+                  </div>
+                  {showProbabilityDistribution ? '隐藏分布图' : '显示分布图'}
+                </button>
+              </div>
+              
+              {/* 概率分布图表 */}
+              {showProbabilityDistribution && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <ProbabilityVisualization
+                    probabilities={enhancedBayesianEngine.getCurrentProbabilities().inner_motivation}
+                    title="内在动机概率分布"
+                    colorScheme="blue"
+                    compact={true}
+                  />
+                  <ProbabilityVisualization
+                    probabilities={enhancedBayesianEngine.getCurrentProbabilities().outer_behavior}
+                    title="外在行为概率分布"
+                    colorScheme="purple"
+                    compact={true}
+                  />
+                </div>
+              )}
             </div>
 
             {/* 标准界面：提交按钮 */}

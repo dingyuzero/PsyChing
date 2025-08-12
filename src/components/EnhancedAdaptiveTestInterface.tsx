@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Brain, Target, Search, Scale, CheckCircle, Clock, TrendingUp, Lightbulb, AlertCircle, BarChart3, Zap } from 'lucide-react';
-import { AdaptiveTestPhase } from '../utils/enhancedBayesianEngine';
+import { AdaptiveTestPhase, enhancedBayesianEngine } from '../utils/enhancedBayesianEngine';
 import { ExtendedQuestion, TestStage } from '../types';
+import ProbabilityVisualization from './ProbabilityVisualization';
 
 interface EnhancedAdaptiveTestInterfaceProps {
   currentQuestion: ExtendedQuestion;
@@ -52,6 +53,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
   stageTransitionInfo
 }) => {
   const [showAdvancedMetrics, setShowAdvancedMetrics] = useState(false);
+  const [showProbabilityDistribution, setShowProbabilityDistribution] = useState(true);
   const [animationKey, setAnimationKey] = useState(0);
 
   // 当问题变化时触发动画
@@ -421,10 +423,10 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
         )}
       </div>
 
-      {/* 增强版问题卡片 - 优化位置 */}
+      {/* 增强版问题卡片 - 移到上方 */}
       <div 
         key={animationKey}
-        className="bg-white rounded-xl shadow-lg border border-slate-200 p-6 transform transition-all duration-500 ease-out flex-1 flex flex-col justify-center min-h-0"
+        className="bg-white rounded-xl shadow-lg border border-slate-200 p-6 transform transition-all duration-500 ease-out flex-shrink-0 mb-3"
         style={{ animation: 'slideInUp 0.5s ease-out' }}
       >
         {/* 问题头部 */}
@@ -503,7 +505,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
         </div>
 
         {/* 提交按钮 */}
-        <div className="flex justify-center mt-6 flex-shrink-0">
+        <div className="flex justify-center mt-6">
           <button
             onClick={onSubmitAnswer}
             disabled={!selectedAnswer || isLoading}
@@ -537,6 +539,51 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             )}
           </button>
         </div>
+      </div>
+
+      {/* 概率分布可视化区域 - 移到下方 */}
+      <div className="bg-white rounded-xl shadow-md border border-slate-200 p-4 flex-1 min-h-0">
+        {/* 概率分布开关按钮 */}
+        <div className="flex items-center justify-between mb-3">
+          <h5 className="text-sm font-semibold text-slate-700">概率分布可视化</h5>
+          <button
+            onClick={() => setShowProbabilityDistribution(!showProbabilityDistribution)}
+            className={`flex items-center px-3 py-1 rounded-lg text-xs font-medium transition-all duration-200 ${
+              showProbabilityDistribution
+                ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            <div className={`w-3 h-3 mr-2 rounded-full border transition-all duration-200 ${
+              showProbabilityDistribution
+                ? 'bg-blue-500 border-blue-500'
+                : 'bg-white border-slate-300'
+            }`}>
+              {showProbabilityDistribution && (
+                <div className="w-full h-full rounded-full bg-white transform scale-50"></div>
+              )}
+            </div>
+            {showProbabilityDistribution ? '隐藏分布图' : '显示分布图'}
+          </button>
+        </div>
+        
+        {/* 概率分布图表 */}
+        {showProbabilityDistribution && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-full">
+            <ProbabilityVisualization
+              probabilities={enhancedBayesianEngine.getCurrentProbabilities().inner_motivation}
+              title="内在动机概率分布"
+              colorScheme="blue"
+              compact={true}
+            />
+            <ProbabilityVisualization
+              probabilities={enhancedBayesianEngine.getCurrentProbabilities().outer_behavior}
+              title="外在行为概率分布"
+              colorScheme="purple"
+              compact={true}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

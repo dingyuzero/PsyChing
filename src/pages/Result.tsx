@@ -18,7 +18,9 @@ import {
   Layers,
   Network,
   Heart,
-  Users
+  Users,
+  HelpCircle,
+  X
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { TRIGRAMS } from '../data/hexagramDatabase';
@@ -231,6 +233,7 @@ const Result = () => {
   const { currentResult, resetTest } = useTestStore();
   const [isSaving, setIsSaving] = useState(false);
   const [hasSaved, setHasSaved] = useState(false);
+  const [showHexagramExplanation, setShowHexagramExplanation] = useState(false);
   
   // 计算综卦和错卦的概率
   const calculateRelatedHexagramProbability = (hexagram: any, type: 'reverse' | 'opposite') => {
@@ -410,6 +413,27 @@ const Result = () => {
               <span>置信度: {Math.round(currentResult.confidence)}%</span>
               <span>•</span>
               <span>卦数: {currentResult.hexagram.gua_number}</span>
+            </div>
+            
+            {/* 卦象摘要 */}
+            <div className="mt-6 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg p-4 border border-amber-200">
+              <h4 className="text-lg font-semibold text-amber-800 mb-3 flex items-center">
+                <Star className="w-4 h-4 mr-2" />
+                卦象摘要
+              </h4>
+              <p className="text-slate-700 leading-relaxed text-sm">
+                您的人格卦象{currentResult.hexagram.name_zh}体现了{getPersonalityMapping(currentResult.hexagram.upper_trigram, currentResult.hexagram.lower_trigram)}的特质组合。
+                上卦{TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.name_zh}反映您在外在行为上{getBehaviorPattern(currentResult.hexagram.upper_trigram)}，
+                下卦{TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.name_zh}显示您的内在动机{getMotivationPattern(currentResult.hexagram.lower_trigram)}。
+                {currentResult.relatedHexagrams?.reverseHexagram && (
+                  <>综卦{currentResult.relatedHexagrams.reverseHexagram.hexagram.name_zh}揭示了您的潜在特质，</>  
+                )}
+                {currentResult.relatedHexagrams?.oppositeHexagram && (
+                  <>错卦{currentResult.relatedHexagrams.oppositeHexagram.hexagram.name_zh}则提示了需要平衡的方面。</>  
+                )}
+                这种卦象组合使您在追求个人目标的同时能够有效协调内外关系，既有{getTrigramMeaning(currentResult.hexagram.upper_trigram).split('，')[0]}的优势，
+                也面临着如何平衡{getTrigramMeaning(currentResult.hexagram.lower_trigram).split('，')[0]}与外在要求的挑战。
+              </p>
             </div>
           </div>
 
@@ -700,11 +724,21 @@ const Result = () => {
           {/* 卦变网络关联 */}
           {currentResult.relatedHexagrams && (
             <div className="bg-white rounded-2xl shadow-lg p-8">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mr-4">
-                  <Network className="w-6 h-6 text-purple-600" />
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center">
+                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mr-4">
+                    <Network className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-slate-900">卦变网络关联</h2>
                 </div>
-                <h2 className="text-2xl font-bold text-slate-900">卦变网络关联</h2>
+                <button
+                  onClick={() => setShowHexagramExplanation(true)}
+                  className="flex items-center px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors"
+                  title="了解综卦和错卦"
+                >
+                  <HelpCircle className="w-4 h-4 mr-2" />
+                  <span className="text-sm font-medium">什么是综卦和错卦？</span>
+                </button>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 {currentResult.relatedHexagrams.reverseHexagram && (
@@ -878,6 +912,115 @@ const Result = () => {
           </button>
         </div>
       </div>
+
+      {/* 综卦错卦解释弹窗 */}
+      {showHexagramExplanation && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+              <h3 className="text-2xl font-bold text-slate-900">综卦与错卦解释</h3>
+              <button
+                onClick={() => setShowHexagramExplanation(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <X className="w-6 h-6 text-gray-500" />
+              </button>
+            </div>
+            
+            <div className="p-6 space-y-8">
+              {/* 周易基本概念 */}
+              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-6 border border-purple-200">
+                <h4 className="text-xl font-semibold text-purple-800 mb-4 flex items-center">
+                  <BookOpen className="w-5 h-5 mr-2" />
+                  周易中的综卦与错卦
+                </h4>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-white rounded-lg p-4 border border-purple-100">
+                    <h5 className="font-semibold text-purple-700 mb-2">综卦（反卦）</h5>
+                    <p className="text-purple-600 text-sm leading-relaxed mb-3">
+                      综卦是将原卦上下颠倒而成的卦象。在周易中，综卦代表事物的另一面或相反的状态，体现了阴阳转换的规律。
+                    </p>
+                    <p className="text-purple-600 text-sm leading-relaxed">
+                      <strong>哲学意义：</strong>揭示事物的对立统一性，提醒我们要从多角度看待问题，理解事物的完整性。
+                    </p>
+                  </div>
+                  <div className="bg-white rounded-lg p-4 border border-purple-100">
+                    <h5 className="font-semibold text-purple-700 mb-2">错卦（对卦）</h5>
+                    <p className="text-purple-600 text-sm leading-relaxed mb-3">
+                      错卦是将原卦的每一爻都变为相反的爻（阳爻变阴爻，阴爻变阳爻）而成的卦象，代表完全相对的状态。
+                    </p>
+                    <p className="text-purple-600 text-sm leading-relaxed">
+                      <strong>哲学意义：</strong>体现阴阳互补的智慧，说明任何事物都有其对立面，需要平衡发展。
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 在本软件中的人格映射意义 */}
+              <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200">
+                <h4 className="text-xl font-semibold text-blue-800 mb-4 flex items-center">
+                  <Users className="w-5 h-5 mr-2" />
+                  在人格测试中的解读意义
+                </h4>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-white rounded-lg p-4 border border-blue-100">
+                    <h5 className="font-semibold text-blue-700 mb-2">综卦的人格意义</h5>
+                    <div className="space-y-2 text-blue-600 text-sm">
+                      <p><strong>• 潜在人格面：</strong>代表你在特定情境下可能展现的另一面人格特质</p>
+                      <p><strong>• 发展方向：</strong>指示你人格成长和完善的可能路径</p>
+                      <p><strong>• 平衡需求：</strong>提醒你需要关注和发展的互补特质</p>
+                      <p><strong>• 适应能力：</strong>在不同环境中调整自己的能力倾向</p>
+                    </div>
+                  </div>
+                  <div className="bg-white rounded-lg p-4 border border-blue-100">
+                    <h5 className="font-semibold text-blue-700 mb-2">错卦的人格意义</h5>
+                    <div className="space-y-2 text-blue-600 text-sm">
+                      <p><strong>• 互补特质：</strong>与你主要人格特质形成互补的品质</p>
+                      <p><strong>• 成长空间：</strong>指出你可以学习和发展的对立面特质</p>
+                      <p><strong>• 完整人格：</strong>帮助你理解人格的全面性和复杂性</p>
+                      <p><strong>• 平衡发展：</strong>提示你在人格发展中需要平衡的方面</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 实际应用指导 */}
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+                <h4 className="text-xl font-semibold text-green-800 mb-4 flex items-center">
+                  <Target className="w-5 h-5 mr-2" />
+                  实际应用指导
+                </h4>
+                <div className="bg-white rounded-lg p-4 border border-green-100">
+                  <div className="grid md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <h6 className="font-semibold text-green-700 mb-2">自我认知</h6>
+                      <p className="text-green-600">通过综卦和错卦，更全面地了解自己的人格特质，包括显性和隐性的方面。</p>
+                    </div>
+                    <div>
+                      <h6 className="font-semibold text-green-700 mb-2">人际关系</h6>
+                      <p className="text-green-600">理解他人可能具有与你互补的特质，有助于建立更和谐的人际关系。</p>
+                    </div>
+                    <div>
+                      <h6 className="font-semibold text-green-700 mb-2">个人发展</h6>
+                      <p className="text-green-600">参考综卦和错卦的特质，制定更全面的个人成长计划。</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 关闭按钮 */}
+              <div className="flex justify-center pt-4">
+                <button
+                  onClick={() => setShowHexagramExplanation(false)}
+                  className="px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors font-medium"
+                >
+                  我明白了
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

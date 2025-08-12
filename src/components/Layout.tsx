@@ -157,7 +157,7 @@ const Layout = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-slate-600">
             <p className="text-sm">
-              © 2024 {t('siteTitle')}. {language === 'zh' ? '本项目采用 MIT 开源协议' : 'This project is licensed under MIT'}
+              © 2025 PsyChing. {language === 'zh' ? '本项目采用 MIT 开源协议' : 'This project is licensed under MIT'}
             </p>
             <p className="text-xs mt-2 text-slate-500">
               {language === 'zh' ? '仅供娱乐和自我认知参考，不构成专业心理咨询建议' : 'For entertainment and self-awareness only, not professional psychological advice'}
