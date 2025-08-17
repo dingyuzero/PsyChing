@@ -1,5 +1,6 @@
 import React from 'react';
 import { TrigramType } from '../types';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface ProbabilityVisualizationProps {
   probabilities: Record<TrigramType, number>;
@@ -16,16 +17,18 @@ const ProbabilityVisualization: React.FC<ProbabilityVisualizationProps> = ({
   showLabels = true,
   compact = false
 }) => {
+  const { t } = useLanguage();
+  
   // 卦象名称映射
   const trigramNames: Record<TrigramType, string> = {
-    qian: '乾',
-    kun: '坤',
-    zhen: '震',
-    xun: '巽',
-    kan: '坎',
-    li: '离',
-    gen: '艮',
-    dui: '兑'
+    qian: t('trigrams.qian'),
+    kun: t('trigrams.kun'),
+    zhen: t('trigrams.zhen'),
+    xun: t('trigrams.xun'),
+    kan: t('trigrams.kan'),
+    li: t('trigrams.li'),
+    gen: t('trigrams.gen'),
+    dui: t('trigrams.dui')
   };
 
   // 颜色配置
@@ -67,7 +70,7 @@ const ProbabilityVisualization: React.FC<ProbabilityVisualizationProps> = ({
         <div className="flex items-center justify-between">
           <h4 className={`text-sm font-medium ${colorConfig.text}`}>{title}</h4>
           <span className="text-xs text-slate-500">
-            最高: {topTrigram.name} ({Math.round(topTrigram.probability * 100)}%)
+            {t('probability.highest')}: {topTrigram.name} ({Math.round(topTrigram.probability * 100)}%)
           </span>
         </div>
         
@@ -98,7 +101,7 @@ const ProbabilityVisualization: React.FC<ProbabilityVisualizationProps> = ({
       <div className="flex items-center justify-between mb-4">
         <h3 className={`text-lg font-semibold ${colorConfig.text}`}>{title}</h3>
         <div className="text-sm text-slate-500">
-          最高概率: {topTrigram.name} ({Math.round(topTrigram.probability * 100)}%)
+          {t('probability.highestProbability')}: {topTrigram.name} ({Math.round(topTrigram.probability * 100)}%)
         </div>
       </div>
       
@@ -148,8 +151,8 @@ const ProbabilityVisualization: React.FC<ProbabilityVisualizationProps> = ({
       {/* 统计信息 */}
       <div className="mt-4 pt-3 border-t border-slate-100">
         <div className="flex justify-between text-xs text-slate-500">
-          <span>熵值: {calculateEntropy(probabilities).toFixed(3)}</span>
-          <span>分布均匀度: {calculateUniformity(probabilities).toFixed(1)}%</span>
+          <span>{t('probability.entropy')}: {calculateEntropy(probabilities).toFixed(3)}</span>
+          <span>{t('probability.uniformity')}: {calculateUniformity(probabilities).toFixed(1)}%</span>
         </div>
       </div>
     </div>

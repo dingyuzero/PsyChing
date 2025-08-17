@@ -19,7 +19,8 @@ export const getLocalData = (): LocalStorageData => {
     hexagramResults: [],
     userPreferences: {
       theme: 'light',
-      language: 'zh'
+      language: 'en',
+      userSelectedLanguage: false
     }
   };
 };

@@ -46,6 +46,24 @@ const translations = {
     step2Desc: '系统根据你的答案计算对应卦象',
     step3: '查看报告',
     step3Desc: '获得详细的人格分析和建议',
+    heroTitle: '探索内在自我，解锁人格密码',
+    heroSubtitle: '基于易学智慧与现代心理学的创新人格测试，自适应调整题目数量，快速确认人格卦象',
+    learnMore: '了解更多',
+    twoStages: '2阶段',
+    testProcess: '测试流程',
+    hexagramTypes: '卦象类型',
+    tenQuestions: '自适应测试，平均3分钟即可完成',
+    preciseTest: '精准测试',
+    coreFeatures: '核心特色',
+    coreFeaturesDesc: '融合传统智慧与现代科技，为你提供独特的人格洞察体验',
+    aiIntelligentAssessment: 'AI智能测评',
+    aiAssessmentDesc: '采用先进的自适应算法，根据你的回答动态调整题目数量，智能生成个性化问题，快速深度了解你的内心世界。',
+    hexagramMapping: '卦象映射技术',
+    hexagramMappingDesc: '独创的心理测量与周易卦象结合算法，将现代心理学与传统文化智慧完美融合，为你提供独特的人格洞察。',
+    personalizedAnalysis: '个性化分析',
+    personalizedAnalysisDesc: '基于你的测试结果，提供详细的人格特点分析、潜在挑战识别、发展建议和运势预测，助力个人成长。',
+    ctaTitle: '准备好探索真实的自己了吗？',
+    ctaSubtitle: '通过自适应测试，即可获得专属的人格卦象分析报告',
     
     // 测试页面
     preparingTest: '正在准备测试...',
@@ -131,8 +149,15 @@ const translations = {
     dataImported: '数据导入成功',
     importFailed: '导入失败，请检查文件格式',
     loadHistoryFailed: '加载历史记录失败',
+    personalityTestData: '人格卦象测试数据',
+    exportSuccess: '数据导出成功',
+    importSuccess: '数据导入成功',
+    deleteSelectedConfirm: '确定要删除选中的 {count} 个测试结果吗？',
+    deletedCount: '已删除 {count} 个测试结果',
+    confidence: '置信度',
+    corePersonality: '核心人格',
     
-    // 通用
+    // 通用文本
     confirm: '确认',
     cancel: '取消',
     close: '关闭',
@@ -140,7 +165,181 @@ const translations = {
     edit: '编辑',
     view: '查看',
     
-    // 问题和选项翻译
+    // 测试界面
+    advancedMetrics: '高级分析指标',
+    informationGain: '信息增益',
+    questionWeight: '问题权重',
+    subcategory: '子类别',
+    difficultyLevel: '难度等级',
+    category: '类别',
+    difficulty: '难度',
+    innerMotivation: '内在动机',
+    outerBehavior: '外在行为',
+    probabilityVisualization: '概率分布可视化',
+    hideProbabilityChart: '隐藏分布图',
+    showProbabilityChart: '显示分布图',
+    innerMotivationProbability: '内在动机概率分布',
+    outerBehaviorProbability: '外在行为概率分布',
+    
+    // 概率分布相关
+    probability: {
+      highest: '最高',
+      highestProbability: '最高概率',
+      entropy: '熵值',
+      uniformity: '分布均匀度'
+    },
+    
+    // Trigram names
+    trigrams: {
+      qian: '乾',
+      kun: '坤',
+      zhen: '震',
+      xun: '巽',
+      kan: '坎',
+      li: '离',
+      gen: '艮',
+      dui: '兑'
+    },
+    
+    // 测试阶段
+    explorationPhase: '探索阶段',
+    discriminationPhase: '区分阶段',
+    confirmationPhase: '确认阶段',
+    explorationDescription: '广泛收集信息',
+    discriminationDescription: '精确区分类型',
+    confirmationDescription: '验证最终结果',
+    phaseProgress: '阶段进度',
+    overallProgress: '总体进度',
+    overallConfidence: '整体置信度',
+    
+    // 增强测试界面
+    innerMotivationExploration: '内在动机探索',
+    outerBehaviorAnalysis: '外在行为分析',
+    explorationTip: '此阶段重点了解您的基本特征和偏好',
+    discriminationTip: '此阶段通过对比性问题精确定位您的类型',
+    confirmationTip: '此阶段验证前面的分析结果，确保准确性',
+    explorationPeriod: '探索期',
+    discriminationPeriod: '区分期',
+    confirmationPeriod: '确认期',
+    collectBasicInfo: '收集基础信息',
+    preciseClassification: '精确分类',
+    resultVerification: '结果验证',
+    testEnded: '测试结束',
+    veryHigh: '很高',
+    high: '较高',
+    medium: '中等',
+    low: '较低',
+    converged: '已收敛',
+    nearConvergence: '接近收敛',
+    partialConvergence: '部分收敛',
+    diverging: '发散中',
+    convergenceScore: '收敛分数',
+    hide: '隐藏',
+    details: '详细',
+    option: '选项',
+    
+    // Result page translations
+    resultPage: {
+      hexagramSummary: '卦象摘要',
+      hexagramGraphic: '卦象图形',
+      motivationBehaviorAnalysis: '动机行为分析概览',
+      yijingAnalysis: '周易卦辞解析',
+      yijingOriginalText: '易经原文',
+      psychologyMapping: '心理学人格映射',
+      psychologyExplanation: '心理学解释',
+      hexagramComposition: '卦象构成解析',
+      upperTrigram: '上卦',
+      lowerTrigram: '下卦',
+      outerBehavior: '外在行为',
+      innerMotivation: '内在动机',
+      outerExpression: '外在表现',
+      trigramName: '卦名',
+      fiveElements: '五行',
+      yijingInterpretation: '易经释义',
+      psychologicalTraits: '心理特征',
+      basicAnalysis: '基础分析',
+      corePersonalityTraits: '核心人格特质',
+      advantageTraits: '优势特质',
+      challengeAreas: '挑战领域',
+      probability: '概率',
+      basedOnBayesian: '基于贝叶斯算法的',
+      innerMotivationMatch: '内在动机匹配度',
+      outerBehaviorMatch: '外在行为匹配度',
+      confidenceLevel: '置信度',
+      hexagramNumber: '卦数',
+      lineAnalysis: '爻位分析',
+      linePosition: '第{position}爻',
+      hexagramNetworkRelation: '卦变网络关联',
+      whatIsZongCuoGua: '什么是综卦和错卦？',
+      whatIsZongGuaCuoGua: '什么是综卦和错卦？',
+      zongGua: '综卦',
+      cuoGua: '错卦',
+      psychologicalInterpretation: '心理学解释',
+      detailedAnalysis: '详细分析',
+      developmentSuggestions: '发展建议',
+      noDevelopmentSuggestions: '暂无发展建议',
+      careerGuidance: '职业指导',
+      lifePhilosophy: '人生哲学',
+      importantNotice: '重要提示',
+      importantNoticeContent: '此测试结果仅供参考，不能替代专业心理咨询。如需深入了解自己的心理状态，建议咨询专业心理健康专家。',
+      retakeTest: '重新测试',
+      viewHistory: '查看历史',
+      shareResult: '分享结果',
+      downloadReport: '下载报告',
+      zongCuoExplanationTitle: '综卦与错卦解释',
+      yijingZongCuo: '周易中的综卦与错卦',
+      zongGuaReverse: '综卦（反卦）',
+      philosophicalMeaning: '哲学意义',
+      cuoGuaOpposite: '错卦（对卦）',
+      reverseHexagram: '综卦',
+      oppositeHexagram: '错卦',
+      importantNoticeText: '此测试结果仅供参考，不能替代专业心理咨询。如需深入了解自己的心理状态，建议咨询专业心理健康专家。',
+      reverseHexagramConcept: '综卦概念',
+      reverseHexagramDescription: '综卦是将原卦上下颠倒而成的卦象，代表事物的另一面或相反的状态。',
+      reverseHexagramPhilosophy: '综卦体现了阴阳转换、物极必反的哲学思想，提醒我们要从多角度看待问题。',
+      oppositeHexagramConcept: '错卦概念',
+      oppositeHexagramDescription: '错卦是将原卦的阴阳爻全部互换而成的卦象，代表互补和对立统一。',
+      oppositeHexagramPhilosophy: '错卦体现了对立统一的哲学思想，强调事物的互补性和完整性。',
+      reverseHexagramPersonalityMeaning: '综卦的人格意义',
+      oppositeHexagramPersonalityMeaning: '错卦的人格意义',
+      interpretationInPersonalityTest: '在人格测试中的解读意义',
+      zongGuaPersonalityMeaning: '综卦的人格意义',
+      potentialPersonalityFace: '潜在人格面',
+      potentialPersonalityDesc: '综卦揭示了您内在的另一面，这是在特定情况下可能显现的人格特质。',
+      developmentDirection: '发展方向',
+      developmentDirectionDesc: '通过理解综卦，您可以发现自己未开发的潜能和成长方向。',
+      balanceNeeds: '平衡需求',
+      balanceNeedsDesc: '综卦提醒您在追求个人发展时需要保持的平衡点。',
+      adaptability: '适应能力',
+      adaptabilityDesc: '了解综卦有助于提高您在不同环境中的适应能力。',
+      cuoGuaPersonalityMeaning: '错卦的人格意义',
+      complementaryTraits: '互补特质',
+      complementaryTraitsDesc: '错卦代表与您当前人格形成互补的特质，是完整人格的另一半。',
+      growthSpace: '成长空间',
+      growthSpaceDesc: '通过学习错卦的特质，您可以发现新的成长空间和发展可能。',
+      completePersonality: '完整人格',
+      completePersonalityDesc: '错卦帮助您理解人格的完整性，避免过度偏向某一方面。',
+      balancedDevelopment: '平衡发展',
+      balancedDevelopmentDesc: '整合错卦的智慧，有助于实现更加平衡和谐的人格发展。',
+      practicalApplicationGuidance: '实际应用指导',
+      selfAwareness: '自我认知',
+      selfAwarenessDesc: '定期反思综卦和错卦的特质，加深对自己的理解。',
+      interpersonalRelationships: '人际关系',
+      interpersonalRelationshipsDesc: '在人际交往中，尝试展现综卦和错卦的积极特质。',
+      personalDevelopment: '个人发展',
+      personalDevelopmentDesc: '参考综卦和错卦的特质，制定更全面的个人成长计划。',
+      understood: '我明白了',
+      elements: {
+         metal: '金',
+         wood: '木',
+         water: '水',
+         fire: '火',
+         earth: '土',
+         unknown: '未知'
+       }
+    },
+     
+     // 问题和选项翻译
     testQuestions: {
       q1: {
         text: '在社交聚会中，你通常会：',
@@ -229,6 +428,24 @@ const translations = {
     step2Desc: 'System calculates corresponding hexagram based on your answers',
     step3: 'View Report',
     step3Desc: 'Get detailed personality analysis and suggestions',
+    heroTitle: 'Explore Your Inner Self, Unlock Your Personality Code',
+    heroSubtitle: 'Innovative personality test based on I Ching wisdom and modern psychology, adaptively adjusting question count to quickly confirm your personality hexagram',
+    learnMore: 'Learn More',
+    twoStages: '2 Stages',
+    testProcess: 'Test Process',
+    hexagramTypes: 'Hexagram Types',
+    tenQuestions: 'Adaptive Test, Average 3 Minutes to Complete',
+    preciseTest: 'Precise Test',
+    coreFeatures: 'Core Features',
+    coreFeaturesDesc: 'Combining traditional wisdom with modern technology to provide unique personality insights',
+    aiIntelligentAssessment: 'AI Intelligent Assessment',
+    aiAssessmentDesc: 'Using advanced adaptive algorithms to dynamically adjust question count based on your responses, intelligently generating personalized questions to quickly understand your inner world.',
+    hexagramMapping: 'Hexagram Mapping Technology',
+    hexagramMappingDesc: 'Innovative algorithm combining psychological measurement with I Ching hexagrams, perfectly integrating modern psychology with traditional cultural wisdom.',
+    personalizedAnalysis: 'Personalized Analysis',
+    personalizedAnalysisDesc: 'Based on your test results, providing detailed personality trait analysis, potential challenge identification, development suggestions and fortune predictions.',
+    ctaTitle: 'Ready to Explore Your True Self?',
+    ctaSubtitle: 'Get your exclusive personality hexagram analysis report through adaptive testing',
     
     // Test page
     preparingTest: 'Preparing test...',
@@ -314,6 +531,13 @@ const translations = {
     dataImported: 'Data imported successfully',
     importFailed: 'Import failed, please check file format',
     loadHistoryFailed: 'Failed to load history',
+    personalityTestData: 'Personality Test Data',
+    exportSuccess: 'Data exported successfully',
+    importSuccess: 'Data imported successfully',
+    deleteSelectedConfirm: 'Are you sure you want to delete the selected {count} test results?',
+    deletedCount: 'Deleted {count} test results',
+    confidence: 'Confidence',
+    corePersonality: 'Core Personality',
     
     // Common
     confirm: 'Confirm',
@@ -323,7 +547,179 @@ const translations = {
     edit: 'Edit',
     view: 'View',
     
-    // Questions and options translation
+    // Test interface
+    advancedMetrics: 'Advanced Metrics',
+    informationGain: 'Information Gain',
+    questionWeight: 'Question Weight',
+    subcategory: 'Subcategory',
+    difficultyLevel: 'Difficulty Level',
+    category: 'Category',
+    difficulty: 'Difficulty',
+    innerMotivation: 'Inner Motivation',
+    outerBehavior: 'Outer Behavior',
+    probabilityVisualization: 'Probability Visualization',
+    
+    // Probability distribution related
+    probability: {
+      highest: 'Highest',
+      highestProbability: 'Highest Probability',
+      entropy: 'Entropy',
+      uniformity: 'Uniformity'
+    },
+    
+    // Trigram names
+    trigrams: {
+      qian: 'Qian',
+      kun: 'Kun',
+      zhen: 'Zhen',
+      xun: 'Xun',
+      kan: 'Kan',
+      li: 'Li',
+      gen: 'Gen',
+      dui: 'Dui'
+    },
+    
+    // Test phases
+    explorationPhase: 'Exploration Phase',
+    discriminationPhase: 'Discrimination Phase',
+    confirmationPhase: 'Confirmation Phase',
+    explorationDescription: 'Broadly collect information',
+    discriminationDescription: 'Precisely distinguish types',
+    confirmationDescription: 'Verify final results',
+    phaseProgress: 'Phase Progress',
+    overallProgress: 'Overall Progress',
+    overallConfidence: 'Overall Confidence',
+    
+    // Enhanced test interface
+    innerMotivationExploration: 'Inner Motivation Exploration',
+    outerBehaviorAnalysis: 'Outer Behavior Analysis',
+    explorationTip: 'This phase focuses on understanding your basic characteristics and preferences',
+    discriminationTip: 'This phase precisely locates your type through comparative questions',
+    confirmationTip: 'This phase verifies previous analysis results to ensure accuracy',
+    explorationPeriod: 'Exploration Period',
+    discriminationPeriod: 'Discrimination Period',
+    confirmationPeriod: 'Confirmation Period',
+    collectBasicInfo: 'Collect Basic Information',
+    preciseClassification: 'Precise Classification',
+    resultVerification: 'Result Verification',
+    testEnded: 'Test Ended',
+    veryHigh: 'Very High',
+    high: 'High',
+    medium: 'Medium',
+    low: 'Low',
+    converged: 'Converged',
+    nearConvergence: 'Near Convergence',
+    partialConvergence: 'Partial Convergence',
+    diverging: 'Diverging',
+    convergenceScore: 'Convergence Score',
+    hide: 'Hide',
+    details: 'Details',
+    option: 'Option',
+    
+    // Result page translations
+    resultPage: {
+      hexagramSummary: 'Hexagram Summary',
+      hexagramGraphic: 'Hexagram Graphic',
+      motivationBehaviorAnalysis: 'Motivation Behavior Analysis Overview',
+      yijingAnalysis: 'I Ching Hexagram Analysis',
+      yijingOriginalText: 'I Ching Original Text',
+      psychologyMapping: 'Psychology Personality Mapping',
+      psychologyExplanation: 'Psychology Explanation',
+      hexagramComposition: 'Hexagram Composition Analysis',
+      upperTrigram: 'Upper Trigram',
+      lowerTrigram: 'Lower Trigram',
+      outerBehavior: 'Outer Behavior',
+      innerMotivation: 'Inner Motivation',
+      outerExpression: 'Outer Expression',
+      innerMotivationFull: 'Inner Motivation',
+      trigramName: 'Trigram Name',
+      fiveElements: 'Five Elements',
+      yijingInterpretation: 'I Ching Interpretation',
+      psychologicalCharacteristics: 'Psychological Characteristics',
+      basicAnalysis: 'Basic Analysis',
+      corePersonalityTraits: 'Core Personality Traits',
+      advantageTraits: 'Advantage Traits',
+      challengeAreas: 'Challenge Areas',
+      probability: 'Probability',
+      basedOnBayesian: 'Based on Bayesian Algorithm',
+      innerMotivationMatch: 'Inner Motivation Match',
+      outerBehaviorMatch: 'Outer Behavior Match',
+      confidenceLevel: 'Confidence Level',
+      hexagramNumber: 'Hexagram Number',
+      lineAnalysis: 'Line Analysis',
+      linePosition: 'Line {position}',
+      hexagramNetworkRelation: 'Hexagram Network Relations',
+      whatIsZongCuoGua: 'What are Zong and Cuo Hexagrams?',
+      whatIsZongGuaCuoGua: 'What are Zong and Cuo Hexagrams?',
+      zongGua: 'Zong Hexagram',
+      cuoGua: 'Cuo Hexagram',
+      psychologicalInterpretation: 'Psychological Interpretation',
+      detailedAnalysis: 'Detailed Analysis',
+      developmentSuggestions: 'Development Suggestions',
+      noDevelopmentSuggestions: 'No development suggestions available',
+      careerGuidance: 'Career Guidance',
+      lifePhilosophy: 'Life Philosophy',
+      importantNotice: 'Important Notice',
+      importantNoticeContent: 'This test result is for reference only and cannot replace professional psychological counseling. For in-depth understanding of your psychological state, please consult professional mental health experts.',
+      retakeTest: 'Retake Test',
+      viewHistory: 'View History',
+      shareResult: 'Share Result',
+      downloadReport: 'Download Report',
+      zongCuoExplanationTitle: 'Zong and Cuo Hexagram Explanation',
+      yijingZongCuo: 'Zong and Cuo Hexagrams in I Ching',
+      zongGuaReverse: 'Zong Hexagram (Reverse Hexagram)',
+      philosophicalMeaning: 'Philosophical Meaning',
+      cuoGuaOpposite: 'Cuo Hexagram (Opposite Hexagram)',
+      reverseHexagram: 'Reverse Hexagram',
+      oppositeHexagram: 'Opposite Hexagram',
+      importantNoticeText: 'This test result is for reference only and cannot replace professional psychological counseling. For in-depth understanding of your psychological state, please consult professional mental health experts.',
+      reverseHexagramConcept: 'Reverse Hexagram Concept',
+      reverseHexagramDescription: 'The reverse hexagram is formed by flipping the original hexagram upside down, representing the other side or opposite state of things.',
+      reverseHexagramPhilosophy: 'The reverse hexagram embodies the philosophical thought of yin-yang transformation and extremes leading to reversal, reminding us to view problems from multiple perspectives.',
+      oppositeHexagramConcept: 'Opposite Hexagram Concept',
+      oppositeHexagramDescription: 'The opposite hexagram is formed by inverting all yin and yang lines of the original hexagram, representing complementarity and unity of opposites.',
+      oppositeHexagramPhilosophy: 'The opposite hexagram embodies the philosophical thought of unity of opposites, emphasizing the complementarity and completeness of things.',
+      reverseHexagramPersonalityMeaning: 'Personality Meaning of Reverse Hexagram',
+      oppositeHexagramPersonalityMeaning: 'Personality Meaning of Opposite Hexagram',
+      interpretationInPersonalityTest: 'Interpretation in Personality Testing',
+      zongGuaPersonalityMeaning: 'Personality Meaning of Zong Hexagram',
+      potentialPersonalityFace: 'Potential Personality Aspect',
+      potentialPersonalityDesc: 'The Zong hexagram reveals another side of your inner self, personality traits that may manifest in specific situations.',
+      developmentDirection: 'Development Direction',
+      developmentDirectionDesc: 'By understanding the Zong hexagram, you can discover your undeveloped potential and growth directions.',
+      balanceNeeds: 'Balance Needs',
+      balanceNeedsDesc: 'The Zong hexagram reminds you of the balance points needed in pursuing personal development.',
+      adaptability: 'Adaptability',
+      adaptabilityDesc: 'Understanding the Zong hexagram helps improve your adaptability in different environments.',
+      cuoGuaPersonalityMeaning: 'Personality Meaning of Cuo Hexagram',
+      complementaryTraits: 'Complementary Traits',
+      complementaryTraitsDesc: 'The Cuo hexagram represents traits that complement your current personality, the other half of a complete personality.',
+      growthSpace: 'Growth Space',
+      growthSpaceDesc: 'By learning the traits of the Cuo hexagram, you can discover new growth spaces and development possibilities.',
+      completePersonality: 'Complete Personality',
+      completePersonalityDesc: 'The Cuo hexagram helps you understand personality completeness, avoiding excessive bias toward one aspect.',
+      balancedDevelopment: 'Balanced Development',
+      balancedDevelopmentDesc: 'Integrating the wisdom of the Cuo hexagram helps achieve more balanced and harmonious personality development.',
+      practicalApplicationGuidance: 'Practical Application Guidance',
+      selfAwareness: 'Self-Awareness',
+      selfAwarenessDesc: 'Regularly reflect on the traits of Zong and Cuo hexagrams to deepen your self-understanding.',
+      interpersonalRelationships: 'Interpersonal Relationships',
+      interpersonalRelationshipsDesc: 'In interpersonal interactions, try to display the positive traits of Zong and Cuo hexagrams.',
+      personalDevelopment: 'Personal Development',
+      personalDevelopmentDesc: 'Reference the traits of Zong and Cuo hexagrams to create a more comprehensive personal growth plan.',
+      understood: 'I Understand',
+      elements: {
+        metal: 'Metal',
+        wood: 'Wood',
+        water: 'Water',
+        fire: 'Fire',
+        earth: 'Earth',
+        unknown: 'Unknown'
+      }
+    },
+
+    
+     // Questions and options translation
     testQuestions: {
       q1: {
         text: 'At social gatherings, you usually:',
@@ -382,19 +778,24 @@ const translations = {
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>('zh');
+  const [language, setLanguageState] = useState<Language>('en');
 
   useEffect(() => {
-    // 从本地存储加载语言偏好
+    // 默认使用英文，只有用户明确选择中文时才切换
     const preferences = getUserPreferences();
-    if (preferences.language) {
-      setLanguageState(preferences.language as Language);
+    // 如果localStorage中没有语言设置，或者设置为中文但用户没有主动选择，则使用英文
+    if (preferences.language === 'zh' && preferences.userSelectedLanguage) {
+      setLanguageState('zh');
+    } else {
+      // 确保默认为英文，并清除可能存在的中文设置
+      setLanguageState('en');
+      updateUserPreferences({ language: 'en', userSelectedLanguage: false });
     }
   }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    updateUserPreferences({ language: lang });
+    updateUserPreferences({ language: lang, userSelectedLanguage: true });
   };
 
   const t = (key: string): any => {

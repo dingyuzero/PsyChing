@@ -1,6 +1,7 @@
 import React from 'react';
 import { Brain, Target, Search, Scale, CheckCircle, Clock, TrendingUp } from 'lucide-react';
 import { AdaptiveTestPhase } from '../utils/enhancedBayesianEngine';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface AdaptiveTestProgressProps {
   currentPhase: 'inner_motivation' | 'outer_behavior';
@@ -28,11 +29,12 @@ const AdaptiveTestProgress: React.FC<AdaptiveTestProgressProps> = ({
   confidence,
   elapsedTime
 }) => {
+  const { t } = useLanguage();
   // 阶段配置
   const phaseConfig = {
     inner_motivation: {
       icon: Brain,
-      name: '内在动机',
+      name: t('innerMotivation'),
       color: 'blue',
       bgColor: 'bg-blue-50',
       textColor: 'text-blue-700',
@@ -40,7 +42,7 @@ const AdaptiveTestProgress: React.FC<AdaptiveTestProgressProps> = ({
     },
     outer_behavior: {
       icon: Target,
-      name: '外在行为',
+      name: t('outerBehavior'),
       color: 'purple',
       bgColor: 'bg-purple-50',
       textColor: 'text-purple-700',
@@ -51,24 +53,24 @@ const AdaptiveTestProgress: React.FC<AdaptiveTestProgressProps> = ({
   const adaptivePhaseConfig = {
     exploration: {
       icon: Search,
-      name: '探索阶段',
-      description: '广泛收集信息',
+      name: t('explorationPhase'),
+      description: t('explorationDescription'),
       color: 'text-green-600',
       bgColor: 'bg-green-50',
       borderColor: 'border-green-200'
     },
     discrimination: {
       icon: Scale,
-      name: '区分阶段',
-      description: '精确区分类型',
+      name: t('discriminationPhase'),
+      description: t('discriminationDescription'),
       color: 'text-orange-600',
       bgColor: 'bg-orange-50',
       borderColor: 'border-orange-200'
     },
     confirmation: {
       icon: CheckCircle,
-      name: '确认阶段',
-      description: '验证最终结果',
+      name: t('confirmationPhase'),
+      description: t('confirmationDescription'),
       color: 'text-red-600',
       bgColor: 'bg-red-50',
       borderColor: 'border-red-200'
@@ -101,10 +103,10 @@ const AdaptiveTestProgress: React.FC<AdaptiveTestProgressProps> = ({
           </div>
           <div>
             <h3 className="text-lg font-semibold text-slate-900">
-              {currentPhaseConfig.name}测试
+              {currentPhaseConfig.name}{t('test')}
             </h3>
             <p className="text-sm text-slate-500">
-              问题 {questionsAnswered + 1} / {totalQuestions}
+              {t('question')} {questionsAnswered + 1} / {totalQuestions}
             </p>
           </div>
         </div>
@@ -143,7 +145,7 @@ const AdaptiveTestProgress: React.FC<AdaptiveTestProgressProps> = ({
         {/* 阶段进度条 */}
         <div className="mt-3">
           <div className="flex justify-between text-xs text-slate-600 mb-1">
-            <span>阶段进度</span>
+            <span>{t('phaseProgress')}</span>
             <span>{phaseProgress.current} / {phaseProgress.total}</span>
           </div>
           <div className="w-full bg-slate-200 rounded-full h-2">
@@ -161,8 +163,8 @@ const AdaptiveTestProgress: React.FC<AdaptiveTestProgressProps> = ({
       {/* 总体进度条 */}
       <div className="mb-6">
         <div className="flex justify-between text-sm text-slate-700 mb-2">
-          <span className="font-medium">总体进度</span>
-          <span>{Math.round(overallProgress)}% 完成</span>
+          <span className="font-medium">{t('overallProgress')}</span>
+          <span>{Math.round(overallProgress)}% {t('completed')}</span>
         </div>
         
         <div className="relative">
@@ -188,11 +190,11 @@ const AdaptiveTestProgress: React.FC<AdaptiveTestProgressProps> = ({
           <div className="flex justify-between mt-2 text-xs text-slate-500">
             <span className="flex items-center space-x-1">
               <Brain className="w-3 h-3" />
-              <span>内在动机 (1-5)</span>
+              <span>{t('innerMotivation')} (1-5)</span>
             </span>
             <span className="flex items-center space-x-1">
               <Target className="w-3 h-3" />
-              <span>外在行为 (6-10)</span>
+              <span>{t('outerBehavior')} (6-10)</span>
             </span>
           </div>
         </div>
@@ -201,7 +203,7 @@ const AdaptiveTestProgress: React.FC<AdaptiveTestProgressProps> = ({
       {/* 置信度指标 */}
       <div className="grid grid-cols-3 gap-4">
         <div className="text-center">
-          <div className="text-xs text-blue-600 font-medium mb-1">内在动机</div>
+          <div className="text-xs text-blue-600 font-medium mb-1">{t('innerMotivation')}</div>
           <div className="text-lg font-bold text-blue-700">
             {Math.round(confidence.inner_motivation * 100)}%
           </div>
@@ -214,7 +216,7 @@ const AdaptiveTestProgress: React.FC<AdaptiveTestProgressProps> = ({
         </div>
         
         <div className="text-center">
-          <div className="text-xs text-purple-600 font-medium mb-1">外在行为</div>
+          <div className="text-xs text-purple-600 font-medium mb-1">{t('outerBehavior')}</div>
           <div className="text-lg font-bold text-purple-700">
             {Math.round(confidence.outer_behavior * 100)}%
           </div>
@@ -227,7 +229,7 @@ const AdaptiveTestProgress: React.FC<AdaptiveTestProgressProps> = ({
         </div>
         
         <div className="text-center">
-          <div className="text-xs text-slate-600 font-medium mb-1">整体置信度</div>
+          <div className="text-xs text-slate-600 font-medium mb-1">{t('overallConfidence')}</div>
           <div className="text-lg font-bold text-slate-800">
             {Math.round(confidence.overall * 100)}%
           </div>

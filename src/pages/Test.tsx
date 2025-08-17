@@ -511,10 +511,10 @@ const Test = () => {
                   <h4 className="font-semibold text-gray-800 mb-2">⚙️ 测试配置</h4>
                   {debugInfo.config && (
                     <div className="space-y-1 text-gray-600">
-                      <p>探索阶段: <span className="font-medium text-green-600">{debugInfo.config.explorationQuestions || 'N/A'} 题</span></p>
-                      <p>区分阶段: <span className="font-medium text-orange-600">{debugInfo.config.discriminationQuestions || 'N/A'} 题</span></p>
-                      <p>确认阶段: <span className="font-medium text-red-600">{debugInfo.config.confirmationQuestions || 'N/A'} 题</span></p>
-                      <p>收敛阈值: <span className="font-medium text-blue-600">{debugInfo.config.convergenceThreshold || 'N/A'}</span></p>
+                      <p>探索阶段: <span className="font-medium text-green-600">阈值 0.3, 最多 7 题</span></p>
+                      <p>区分阶段: <span className="font-medium text-orange-600">阈值 0.4, 最多 5 题</span></p>
+                      <p>确认阶段: <span className="font-medium text-red-600">阈值 0.5, 最多 3 题</span></p>
+                      <p>提前停止: <span className="font-medium text-blue-600">阈值 0.6</span></p>
                     </div>
                   )}
                 </div>
@@ -585,7 +585,7 @@ const Test = () => {
             {/* 标准界面：问题卡片 */}
             <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
               <h2 className="text-2xl font-bold text-slate-900 mb-6 leading-relaxed">
-                {currentQuestion.text_zh}
+                {language === 'zh' ? currentQuestion.text_zh : currentQuestion.text_en}
               </h2>
 
               {/* 四选一迫选题 */}
@@ -615,7 +615,12 @@ const Test = () => {
                           }`}>
                             {optionKey}
                           </div>
-                          <span className="text-slate-700 leading-relaxed">{option.text_zh || option.content || option.text}</span>
+                          <span className="text-slate-700 leading-relaxed">
+                            {language === 'zh' 
+                              ? (option.text_zh || option.content || option.text)
+                              : (option.text_en || option.content || option.text)
+                            }
+                          </span>
                         </div>
                       </button>
                     );
@@ -628,7 +633,7 @@ const Test = () => {
             <div className="mb-6">
               {/* 概率分布开关按钮 */}
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-slate-800">概率分布可视化</h3>
+                <h3 className="text-lg font-semibold text-slate-800">{t('probabilityVisualization')}</h3>
                 <button
                   onClick={() => setShowProbabilityDistribution(!showProbabilityDistribution)}
                   className={`flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
@@ -646,7 +651,7 @@ const Test = () => {
                       <div className="w-full h-full rounded-full bg-white transform scale-50"></div>
                     )}
                   </div>
-                  {showProbabilityDistribution ? '隐藏分布图' : '显示分布图'}
+                  {showProbabilityDistribution ? t('hideProbabilityChart') : t('showProbabilityChart')}
                 </button>
               </div>
               
@@ -655,13 +660,13 @@ const Test = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <ProbabilityVisualization
                     probabilities={enhancedBayesianEngine.getCurrentProbabilities().inner_motivation}
-                    title="内在动机概率分布"
+                    title={t('innerMotivationProbability')}
                     colorScheme="blue"
                     compact={true}
                   />
                   <ProbabilityVisualization
                     probabilities={enhancedBayesianEngine.getCurrentProbabilities().outer_behavior}
-                    title="外在行为概率分布"
+                    title={t('outerBehaviorProbability')}
                     colorScheme="purple"
                     compact={true}
                   />

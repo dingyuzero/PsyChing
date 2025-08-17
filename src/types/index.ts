@@ -332,6 +332,7 @@ export interface LocalStorageData {
   userPreferences: {
     theme: 'light' | 'dark';
     language: 'zh' | 'en';
+    userSelectedLanguage?: boolean;
   };
 }
 

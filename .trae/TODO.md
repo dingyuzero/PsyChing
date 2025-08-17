@@ -1,8 +1,6 @@
 # TODO:
 
-- [x] 39: 检查当前Git状态 (priority: High)
-- [x] 40: 如果没有Git仓库则初始化 (priority: High)
-- [x] 41: 检查并配置.gitignore文件 (priority: High)
-- [ ] 42: 添加所有文件到暂存区 (**IN PROGRESS**) (priority: High)
-- [ ] 43: 提交更改 (priority: High)
-- [ ] 44: 添加远程仓库并推送到GitHub (priority: High)
+- [x] 1: 检查当前Git状态 (priority: High)
+- [ ] 2: 添加所有文件到暂存区 (**IN PROGRESS**) (priority: High)
+- [ ] 3: 提交更改（使用合适的提交信息） (priority: High)
+- [ ] 4: 推送到远程GitHub仓库 (priority: High)

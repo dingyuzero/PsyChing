@@ -36,6 +36,12 @@ export interface AdaptiveTestConfig {
   confirmationQuestions: number;
   convergenceThreshold: number;
   maxIterations: number;
+  minQuestionsPerPhase?: number; // 最少题目数
+  earlyStopThreshold?: number; // 提前停止阈值
+  // 分阶段自适应阈值
+  explorationThreshold?: number; // 探索阶段阈值
+    discriminationThreshold?: number; // 区分阶段阈值
+    confirmationThreshold?: number; // 确认阶段阈值
 }
 
 // 增强版贝叶斯自适应测试引擎
@@ -50,11 +56,17 @@ export class EnhancedBayesianEngine {
   // 自适应测试配置
   private config: AdaptiveTestConfig = {
     questionsPerPhase: 15,
-    explorationQuestions: 7,
-    discriminationQuestions: 5,
-    confirmationQuestions: 3,
-    convergenceThreshold: 0.7,
-    maxIterations: 15
+    explorationQuestions: 7, // 探索阶段最多7道题
+    discriminationQuestions: 5, // 区分阶段最多5道题
+    confirmationQuestions: 3, // 确认阶段最多3道题
+    convergenceThreshold: 0.75, // 提高收敛阈值
+    maxIterations: 15,
+    minQuestionsPerPhase: 6, // 最少题目数
+    earlyStopThreshold: 0.6, // 降低总体提前停止阈值
+    // 分阶段自适应阈值
+    explorationThreshold: 0.3, // 探索阶段阈值
+    discriminationThreshold: 0.4, // 区分阶段阈值
+    confirmationThreshold: 0.5 // 确认阶段阈值
   }
   
   // 加载状态
@@ -448,7 +460,13 @@ export class EnhancedBayesianEngine {
     
     // 检查是否需要切换测试阶段
     if (this.shouldSwitchStage()) {
-      this.switchToNextStage();
+      const switched = this.switchToNextStage();
+      // 如果确认阶段完成，结束当前阶段
+      if (!switched) {
+        console.log(`🏁 Confirmation stage completed, switching to next phase`);
+        this.phaseQuestionCount = this.config.questionsPerPhase; // 强制切换阶段
+        return this.getNextQuestion(language); // 递归调用以切换阶段
+      }
     }
     
     // 获取当前阶段和测试阶段的可用问题
@@ -467,36 +485,87 @@ export class EnhancedBayesianEngine {
   }
   
   private shouldSwitchPhase(): boolean {
-    return this.phaseQuestionCount >= this.config.questionsPerPhase;
+    // 检查是否达到最大题目数
+    if (this.phaseQuestionCount >= this.config.questionsPerPhase) {
+      return true;
+    }
+    
+    // 检查是否可以提前停止（最少6题后）
+    const minQuestions = this.config.minQuestionsPerPhase || 6;
+    if (this.phaseQuestionCount >= minQuestions) {
+      const currentProbs = this.getCurrentPhaseProbabilities();
+      const maxProb = Math.max(...Object.values(currentProbs));
+      const earlyStopThreshold = this.config.earlyStopThreshold || 0.8;
+      
+      // 如果最高概率超过提前停止阈值，可以提前结束当前阶段
+      if (maxProb >= earlyStopThreshold) {
+        console.log(`🎯 Early stop triggered for ${this.currentPhase}: max probability ${maxProb.toFixed(3)} >= ${earlyStopThreshold}`);
+        return true;
+      }
+    }
+    
+    return false;
   }
   
   private shouldSwitchStage(): boolean {
+    const currentProbs = this.getCurrentPhaseProbabilities();
+    const maxProb = Math.max(...Object.values(currentProbs));
+    
     switch (this.currentStage) {
       case TestStage.EXPLORATION:
+        // 探索阶段：达到固定题目数或超过探索阈值
+        const explorationThreshold = this.config.explorationThreshold || 0.5;
+        if (maxProb >= explorationThreshold && this.stageQuestionCount >= 3) {
+          console.log(`🎯 Exploration stage early switch: max probability ${maxProb.toFixed(3)} >= ${explorationThreshold}`);
+          return true;
+        }
+        // 达到最大题目数限制（7道题）
         return this.stageQuestionCount >= this.config.explorationQuestions;
+        
       case TestStage.DISCRIMINATION:
+        // 区分阶段：达到固定题目数、收敛或超过区分阈值
+        const discriminationThreshold = this.config.discriminationThreshold || 0.65;
+        if (maxProb >= discriminationThreshold && this.stageQuestionCount >= 2) {
+          console.log(`🎯 Discrimination stage early switch: max probability ${maxProb.toFixed(3)} >= ${discriminationThreshold}`);
+          return true;
+        }
+        // 达到最大题目数限制（5道题）或收敛
         return this.stageQuestionCount >= this.config.discriminationQuestions || this.isConverged();
+        
       case TestStage.CONFIRMATION:
+        // 确认阶段：达到固定题目数或超过确认阈值
+        const confirmationThreshold = this.config.confirmationThreshold || 0.75;
+        if (maxProb >= confirmationThreshold && this.stageQuestionCount >= 1) {
+          console.log(`🎯 Confirmation stage early switch: max probability ${maxProb.toFixed(3)} >= ${confirmationThreshold}`);
+          return true;
+        }
+        // 达到最大题目数限制（3道题）
         return this.stageQuestionCount >= this.config.confirmationQuestions;
+        
       default:
         return false;
     }
   }
   
-  private switchToNextStage() {
+  private switchToNextStage(): boolean {
     switch (this.currentStage) {
       case TestStage.EXPLORATION:
         this.currentStage = TestStage.DISCRIMINATION;
-        break;
+        this.stageQuestionCount = 0;
+        console.log(`🔄 Switched to stage: ${this.currentStage}`);
+        return true;
       case TestStage.DISCRIMINATION:
         this.currentStage = TestStage.CONFIRMATION;
-        break;
+        this.stageQuestionCount = 0;
+        console.log(`🔄 Switched to stage: ${this.currentStage}`);
+        return true;
       case TestStage.CONFIRMATION:
-        // 保持在确认阶段
-        break;
+        // 确认阶段完成，返回false表示无法继续切换
+        console.log(`🏁 Confirmation stage completed, no more stages available`);
+        return false;
+      default:
+        return false;
     }
-    this.stageQuestionCount = 0;
-    console.log(`🔄 Switched to stage: ${this.currentStage}`);
   }
   
   private getAvailableQuestions(): ExtendedQuestion[] {
@@ -684,7 +753,7 @@ export class EnhancedBayesianEngine {
     }, 0);
   }
   
-  // 收敛检测
+  // 收敛检测（增强版）
   private isConverged(): boolean {
     const currentProbs = this.getCurrentPhaseProbabilities();
     const maxProb = Math.max(...Object.values(currentProbs));
@@ -696,14 +765,27 @@ export class EnhancedBayesianEngine {
       this.confidenceHistory.shift();
     }
     
-    // 检查是否收敛
+    // 检查最少题目数要求
+    const minQuestions = this.config.minQuestionsPerPhase || 6;
+    if (this.phaseQuestionCount < minQuestions) {
+      return false;
+    }
+    
+    // 检查提前停止条件
+    const earlyStopThreshold = this.config.earlyStopThreshold || 0.8;
+    if (maxProb >= earlyStopThreshold) {
+      console.log(`🎯 Early convergence detected for ${this.currentPhase}: ${maxProb.toFixed(3)} >= ${earlyStopThreshold}`);
+      return true;
+    }
+    
+    // 检查稳定收敛
     if (this.confidenceHistory.length >= 3) {
       const recentConfidences = this.confidenceHistory.slice(-3);
       const isStable = recentConfidences.every(conf => conf >= this.config.convergenceThreshold);
       
       if (isStable && !this.convergenceDetected) {
         this.convergenceDetected = true;
-        console.log(`🎯 Convergence detected for ${this.currentPhase} with confidence: ${maxProb.toFixed(3)}`);
+        console.log(`🎯 Stable convergence detected for ${this.currentPhase}: ${maxProb.toFixed(3)}`);
         return true;
       }
     }
@@ -804,7 +886,14 @@ export class EnhancedBayesianEngine {
        outer_converged: boolean;
        stages_completed: string[];
      };
+     early_stop_info: {
+       inner_early_stop: boolean;
+       outer_early_stop: boolean;
+       inner_questions_used: number;
+       outer_questions_used: number;
+     };
    } {
+     // 选择概率最大的卦象（确保即使在15题后仍未确定时也能选择最优结果）
      const topInnerMotivation = Object.entries(this.innerMotivationProbs)
        .reduce((a, b) => a[1] > b[1] ? a : b)[0] as TrigramType;
      
@@ -816,9 +905,16 @@ export class EnhancedBayesianEngine {
      const outerConfidence = Math.max(...Object.values(this.outerBehaviorProbs));
      const overallConfidence = (innerConfidence + outerConfidence) / 2;
      
-     // 检查收敛状态
-     const innerConverged = innerConfidence >= this.config.convergenceThreshold;
-     const outerConverged = outerConfidence >= this.config.convergenceThreshold;
+     // 检查收敛状态（使用更灵活的阈值）
+     const earlyStopThreshold = this.config.earlyStopThreshold || 0.8;
+     const innerConverged = innerConfidence >= this.config.convergenceThreshold || innerConfidence >= earlyStopThreshold;
+     const outerConverged = outerConfidence >= this.config.convergenceThreshold || outerConfidence >= earlyStopThreshold;
+     
+     // 检查提前停止信息
+     const innerEarlyStop = innerConfidence >= earlyStopThreshold;
+     const outerEarlyStop = outerConfidence >= earlyStopThreshold;
+     
+     console.log(`📊 Final Result - Inner: ${topInnerMotivation} (${innerConfidence.toFixed(3)}), Outer: ${topOuterBehavior} (${outerConfidence.toFixed(3)})`);
      
      return {
        inner_motivation: topInnerMotivation,
@@ -836,6 +932,12 @@ export class EnhancedBayesianEngine {
          inner_converged: innerConverged,
          outer_converged: outerConverged,
          stages_completed: this.getCompletedStages()
+       },
+       early_stop_info: {
+         inner_early_stop: innerEarlyStop,
+         outer_early_stop: outerEarlyStop,
+         inner_questions_used: this.currentPhase === 'inner_motivation' ? this.phaseQuestionCount : this.config.questionsPerPhase,
+         outer_questions_used: this.currentPhase === 'outer_behavior' ? this.phaseQuestionCount : 0
        }
      };
    }

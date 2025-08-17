@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Brain, Target, Search, Scale, CheckCircle, Clock, TrendingUp, Lightbulb, AlertCircle, BarChart3, Zap } from 'lucide-react';
+import { Brain, Target, Search, Scale, CheckCircle, Clock, TrendingUp, Lightbulb, AlertCircle, BarChart3, Zap, Eye, EyeOff, ChevronDown, ChevronUp } from 'lucide-react';
 import { AdaptiveTestPhase, enhancedBayesianEngine } from '../utils/enhancedBayesianEngine';
 import { ExtendedQuestion, TestStage } from '../types';
 import ProbabilityVisualization from './ProbabilityVisualization';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface EnhancedAdaptiveTestInterfaceProps {
   currentQuestion: ExtendedQuestion;
@@ -52,6 +53,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
   isLoading,
   stageTransitionInfo
 }) => {
+  const { language, t } = useLanguage();
   const [showAdvancedMetrics, setShowAdvancedMetrics] = useState(false);
   const [showProbabilityDistribution, setShowProbabilityDistribution] = useState(true);
   const [animationKey, setAnimationKey] = useState(0);
@@ -65,7 +67,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
   const phaseConfig = {
     inner_motivation: {
       icon: Brain,
-      name: '内在动机探索',
+      name: t('innerMotivationExploration') || '内在动机探索',
       color: 'blue',
       bgColor: 'bg-blue-50',
       textColor: 'text-blue-700',
@@ -74,7 +76,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
     },
     outer_behavior: {
       icon: Target,
-      name: '外在行为分析',
+      name: t('outerBehaviorAnalysis') || '外在行为分析',
       color: 'purple',
       bgColor: 'bg-purple-50',
       textColor: 'text-purple-700',
@@ -86,59 +88,59 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
   const adaptivePhaseConfig = {
     exploration: {
       icon: Search,
-      name: '探索阶段',
-      description: '广泛收集用户特征信息',
+      name: t('explorationPhase') || '探索阶段',
+      description: t('explorationDescription') || '广泛收集用户特征信息',
       color: 'text-green-600',
       bgColor: 'bg-green-50',
       borderColor: 'border-green-200',
       gradient: 'from-green-500 to-green-600',
-      tip: '此阶段重点了解您的基本特征和偏好'
+      tip: t('explorationTip') || '此阶段重点了解您的基本特征和偏好'
     },
     discrimination: {
       icon: Scale,
-      name: '区分阶段',
-      description: '精确区分和定位用户类型',
+      name: t('discriminationPhase') || '区分阶段',
+      description: t('discriminationDescription') || '精确区分和定位用户类型',
       color: 'text-orange-600',
       bgColor: 'bg-orange-50',
       borderColor: 'border-orange-200',
       gradient: 'from-orange-500 to-orange-600',
-      tip: '此阶段通过对比性问题精确定位您的类型'
+      tip: t('discriminationTip') || '此阶段通过对比性问题精确定位您的类型'
     },
     confirmation: {
       icon: CheckCircle,
-      name: '确认阶段',
-      description: '验证和确认最终结果',
+      name: t('confirmationPhase') || '确认阶段',
+      description: t('confirmationDescription') || '验证和确认最终结果',
       color: 'text-red-600',
       bgColor: 'bg-red-50',
       borderColor: 'border-red-200',
       gradient: 'from-red-500 to-red-600',
-      tip: '此阶段验证前面的分析结果，确保准确性'
+      tip: t('confirmationTip') || '此阶段验证前面的分析结果，确保准确性'
     }
   };
 
   const testStageConfig = {
     [TestStage.EXPLORATION]: {
-      name: '探索期',
-      description: '收集基础信息',
+      name: t('explorationPeriod') || '探索期',
+      description: t('collectBasicInfo') || '收集基础信息',
       color: 'text-emerald-600',
       bgColor: 'bg-emerald-50'
     },
     [TestStage.DISCRIMINATION]: {
-      name: '区分期',
-      description: '精确分类',
+      name: t('discriminationPeriod') || '区分期',
+      description: t('preciseClassification') || '精确分类',
       color: 'text-amber-600',
       bgColor: 'bg-amber-50'
     },
     [TestStage.CONFIRMATION]: {
-      name: '确认期',
-      description: '结果验证',
+      name: t('confirmationPeriod') || '确认期',
+      description: t('resultVerification') || '结果验证',
       color: 'text-rose-600',
       bgColor: 'bg-rose-50'
     },
     // 注意：COMPLETED 不在 TestStage 枚举中，使用字符串键
     ['completed']: {
-      name: '已完成',
-      description: '测试结束',
+      name: t('completed') || '已完成',
+      description: t('testEnded') || '测试结束',
       color: 'text-slate-600',
       bgColor: 'bg-slate-50'
     }
@@ -163,18 +165,18 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
 
   // 获取置信度等级
   const getConfidenceLevel = (confidence: number) => {
-    if (confidence >= 0.9) return { level: '很高', color: 'text-green-600', bgColor: 'bg-green-100' };
-    if (confidence >= 0.7) return { level: '较高', color: 'text-blue-600', bgColor: 'bg-blue-100' };
-    if (confidence >= 0.5) return { level: '中等', color: 'text-yellow-600', bgColor: 'bg-yellow-100' };
-    return { level: '较低', color: 'text-red-600', bgColor: 'bg-red-100' };
+    if (confidence >= 0.9) return { level: t('veryHigh') || '很高', color: 'text-green-600', bgColor: 'bg-green-100' };
+    if (confidence >= 0.7) return { level: t('high') || '较高', color: 'text-blue-600', bgColor: 'bg-blue-100' };
+    if (confidence >= 0.5) return { level: t('medium') || '中等', color: 'text-yellow-600', bgColor: 'bg-yellow-100' };
+    return { level: t('low') || '较低', color: 'text-red-600', bgColor: 'bg-red-100' };
   };
 
   // 获取收敛状态
   const getConvergenceStatus = (score: number) => {
-    if (score >= 0.95) return { status: '已收敛', color: 'text-green-600', icon: CheckCircle };
-    if (score >= 0.8) return { status: '接近收敛', color: 'text-blue-600', icon: TrendingUp };
-    if (score >= 0.6) return { status: '部分收敛', color: 'text-yellow-600', icon: BarChart3 };
-    return { status: '发散中', color: 'text-red-600', icon: AlertCircle };
+    if (score >= 0.95) return { status: t('converged') || '已收敛', color: 'text-green-600', icon: CheckCircle };
+    if (score >= 0.8) return { status: t('nearConvergence') || '接近收敛', color: 'text-blue-600', icon: TrendingUp };
+    if (score >= 0.6) return { status: t('partialConvergence') || '部分收敛', color: 'text-yellow-600', icon: BarChart3 };
+    return { status: t('diverging') || '发散中', color: 'text-red-600', icon: AlertCircle };
   };
 
   const confidenceLevel = getConfidenceLevel(confidence.overall);
@@ -198,7 +200,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                 {currentPhaseConfig.name}
               </h2>
               <p className="text-sm text-slate-600">
-                问题 {questionsAnswered + 1} / {totalQuestions}
+                {t('question') || '问题'} {questionsAnswered + 1} / {totalQuestions}
               </p>
             </div>
           </div>
@@ -246,7 +248,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             {/* 阶段进度 */}
             <div className="mt-2">
               <div className="flex justify-between text-xs text-slate-600 mb-1">
-                <span>阶段进度</span>
+                <span>{t('phaseProgress') || '阶段进度'}</span>
                 <span>{phaseProgress.current} / {phaseProgress.total}</span>
               </div>
               <div className="w-full bg-slate-200 rounded-full h-1.5">
@@ -298,8 +300,8 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
         {/* 总体进度条 */}
         <div className="mb-3">
           <div className="flex justify-between text-sm text-slate-700 mb-2">
-            <span className="font-medium">总体进度</span>
-            <span>{Math.round(overallProgress)}% 完成</span>
+            <span className="font-medium">{t('overallProgress') || '总体进度'}</span>
+            <span>{Math.round(overallProgress)}% {t('completed') || '完成'}</span>
           </div>
           
           <div className="relative">
@@ -324,11 +326,11 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             <div className="flex justify-between mt-2 text-xs text-slate-500">
               <span className="flex items-center space-x-1">
                 <Brain className="w-3 h-3" />
-                <span>内在动机</span>
+                <span>{t('innerMotivation') || '内在动机'}</span>
               </span>
               <span className="flex items-center space-x-1">
                 <Target className="w-3 h-3" />
-                <span>外在行为</span>
+                <span>{t('outerBehavior') || '外在行为'}</span>
               </span>
             </div>
           </div>
@@ -339,7 +341,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
           <div className="grid grid-cols-3 gap-4 flex-1">
             {/* 内在动机置信度 */}
             <div className="text-center">
-              <div className="text-xs text-blue-600 font-medium mb-1">内在动机</div>
+              <div className="text-xs text-blue-600 font-medium mb-1">{t('innerMotivation') || '内在动机'}</div>
               <div className="text-lg font-bold text-blue-700">
                 {Math.round(confidence.inner_motivation * 100)}%
               </div>
@@ -353,7 +355,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             
             {/* 外在行为置信度 */}
             <div className="text-center">
-              <div className="text-xs text-purple-600 font-medium mb-1">外在行为</div>
+              <div className="text-xs text-purple-600 font-medium mb-1">{t('outerBehavior') || '外在行为'}</div>
               <div className="text-lg font-bold text-purple-700">
                 {Math.round(confidence.outer_behavior * 100)}%
               </div>
@@ -367,7 +369,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             
             {/* 收敛分数 */}
             <div className="text-center">
-              <div className="text-xs text-slate-600 font-medium mb-1">收敛分数</div>
+              <div className="text-xs text-slate-600 font-medium mb-1">{t('convergenceScore') || '收敛分数'}</div>
               <div className="text-lg font-bold text-slate-800">
                 {Math.round(convergenceScore * 100)}%
               </div>
@@ -385,35 +387,35 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             onClick={() => setShowAdvancedMetrics(!showAdvancedMetrics)}
             className="ml-4 px-3 py-1 text-xs bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
           >
-            {showAdvancedMetrics ? '隐藏' : '详细'}
+            {showAdvancedMetrics ? (t('hide') || '隐藏') : (t('details') || '详细')}
           </button>
         </div>
 
         {/* 高级指标面板 */}
         {showAdvancedMetrics && (
           <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
-            <h5 className="text-sm font-semibold text-slate-700 mb-3">高级分析指标</h5>
+            <h5 className="text-sm font-semibold text-slate-700 mb-3">{t('advancedMetrics') || 'Advanced Metrics'}</h5>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div>
-                <div className="text-xs text-slate-600 mb-1">信息增益</div>
+                <div className="text-xs text-slate-600 mb-1">{t('informationGain') || 'Information Gain'}</div>
                 <div className="text-sm font-bold text-slate-800">
                   {informationGain.toFixed(3)}
                 </div>
               </div>
               <div>
-                <div className="text-xs text-slate-600 mb-1">问题权重</div>
+                <div className="text-xs text-slate-600 mb-1">{t('questionWeight') || 'Question Weight'}</div>
                 <div className="text-sm font-bold text-slate-800">
                   {currentQuestion.weight?.toFixed(2) || 'N/A'}
                 </div>
               </div>
               <div>
-                <div className="text-xs text-slate-600 mb-1">子类别</div>
+                <div className="text-xs text-slate-600 mb-1">{t('subcategory') || 'Subcategory'}</div>
                 <div className="text-sm font-bold text-slate-800">
                   {currentQuestion.subcategory || 'N/A'}
                 </div>
               </div>
               <div>
-                <div className="text-xs text-slate-600 mb-1">难度等级</div>
+                <div className="text-xs text-slate-600 mb-1">{t('difficultyLevel') || 'Difficulty Level'}</div>
                 <div className="text-sm font-bold text-slate-800">
                   {currentQuestion.difficulty || 'N/A'}
                 </div>
@@ -433,17 +435,17 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
         <div className="flex items-start justify-between mb-5">
           <div className="flex-1">
             <h3 className="text-xl font-bold text-slate-900 mb-2 leading-relaxed">
-              {currentQuestion.text_zh}
+              {language === 'zh' ? currentQuestion.text_zh : currentQuestion.text_en}
             </h3>
             
             {/* 问题元信息 */}
             <div className="flex items-center space-x-4 text-sm text-slate-500">
               <span>ID: {currentQuestion.id}</span>
               {currentQuestion.subcategory && (
-                <span>类别: {currentQuestion.subcategory}</span>
+                <span>{t('category') || 'Category'}: {currentQuestion.subcategory}</span>
               )}
               {currentQuestion.difficulty && (
-                <span>难度: {currentQuestion.difficulty}</span>
+                <span>{t('difficulty') || 'Difficulty'}: {currentQuestion.difficulty}</span>
               )}
             </div>
           </div>
@@ -454,7 +456,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
               ? 'bg-blue-100 text-blue-700' 
               : 'bg-purple-100 text-purple-700'
           }`}>
-            {currentPhase === 'inner_motivation' ? '内在动机' : '外在行为'}
+            {currentPhase === 'inner_motivation' ? (t('innerMotivation') || 'Inner Motivation') : (t('outerBehavior') || 'Outer Behavior')}
           </div>
         </div>
 
@@ -464,7 +466,9 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             const optionKey = String.fromCharCode(65 + index); // A, B, C, D
             const isSelected = selectedAnswer === option.id;
             
-            const displayText = option.text_zh || option.content || option.text || `选项${optionKey}`;
+            const displayText = language === 'zh' 
+              ? (option.text_zh || option.content || option.text || `${t('option') || '选项'}${optionKey}`)
+              : (option.text_en || option.content || option.text || `${t('option') || 'Option'} ${optionKey}`);
             
             return (
               <button
@@ -520,18 +524,18 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             {isLoading ? (
               <>
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
-                处理中...
+                {t('processing') || 'Processing'}...
               </>
             ) : (
               <>
                 {questionsAnswered >= totalQuestions - 1 ? (
                   <>
                     <CheckCircle className="w-5 h-5 mr-3" />
-                    完成测试
+                    {t('completeTest') || 'Complete Test'}
                   </>
                 ) : (
                   <>
-                    下一题
+                    {t('nextQuestion') || 'Next Question'}
                     <Zap className="w-5 h-5 ml-3" />
                   </>
                 )}
@@ -542,10 +546,10 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
       </div>
 
       {/* 概率分布可视化区域 - 移到下方 */}
-      <div className="bg-white rounded-xl shadow-md border border-slate-200 p-4 flex-1 min-h-0">
+      <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6 flex-1 min-h-[400px] mt-4 mb-6">
         {/* 概率分布开关按钮 */}
         <div className="flex items-center justify-between mb-3">
-          <h5 className="text-sm font-semibold text-slate-700">概率分布可视化</h5>
+          <h5 className="text-sm font-semibold text-slate-700">{t('probabilityVisualization') || 'Probability Visualization'}</h5>
           <button
             onClick={() => setShowProbabilityDistribution(!showProbabilityDistribution)}
             className={`flex items-center px-3 py-1 rounded-lg text-xs font-medium transition-all duration-200 ${
@@ -563,22 +567,22 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                 <div className="w-full h-full rounded-full bg-white transform scale-50"></div>
               )}
             </div>
-            {showProbabilityDistribution ? '隐藏分布图' : '显示分布图'}
+            {showProbabilityDistribution ? (t('hideProbabilityChart') || 'Hide Chart') : (t('showProbabilityChart') || 'Show Chart')}
           </button>
         </div>
         
         {/* 概率分布图表 */}
         {showProbabilityDistribution && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-[320px]">
             <ProbabilityVisualization
               probabilities={enhancedBayesianEngine.getCurrentProbabilities().inner_motivation}
-              title="内在动机概率分布"
+              title={t('innerMotivationProbability') || 'Inner Motivation Probability'}
               colorScheme="blue"
               compact={true}
             />
             <ProbabilityVisualization
               probabilities={enhancedBayesianEngine.getCurrentProbabilities().outer_behavior}
-              title="外在行为概率分布"
+              title={t('outerBehaviorProbability') || 'Outer Behavior Probability'}
               colorScheme="purple"
               compact={true}
             />

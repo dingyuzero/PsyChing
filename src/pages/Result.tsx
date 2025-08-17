@@ -410,16 +410,16 @@ const Result = () => {
               {currentResult.hexagram.name_en}
             </p>
             <div className="mt-4 flex items-center justify-center space-x-4 text-sm text-slate-500">
-              <span>置信度: {Math.round(currentResult.confidence)}%</span>
+              <span>{t('resultPage.confidenceLevel')}: {Math.round(currentResult.confidence)}%</span>
               <span>•</span>
-              <span>卦数: {currentResult.hexagram.gua_number}</span>
+              <span>{t('resultPage.hexagramNumber')}: {currentResult.hexagram.gua_number}</span>
             </div>
             
             {/* 卦象摘要 */}
             <div className="mt-6 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg p-4 border border-amber-200">
               <h4 className="text-lg font-semibold text-amber-800 mb-3 flex items-center">
                 <Star className="w-4 h-4 mr-2" />
-                卦象摘要
+                {t('resultPage.hexagramSummary')}
               </h4>
               <p className="text-slate-700 leading-relaxed text-sm">
                 您的人格卦象{currentResult.hexagram.name_zh}体现了{getPersonalityMapping(currentResult.hexagram.upper_trigram, currentResult.hexagram.lower_trigram)}的特质组合。
@@ -439,12 +439,12 @@ const Result = () => {
 
           {/* 卦象图形展示 */}
           <div className="bg-slate-50 rounded-xl p-6 mb-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4 text-center">卦象图形</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4 text-center">{t('resultPage.hexagramGraphic')}</h3>
             <div className="flex flex-col items-center space-y-6">
               {/* 上卦 */}
               <div className="text-center">
                 <h4 className="text-sm font-medium text-purple-600 mb-3">
-                  上卦 - 外在行为 ({TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.name_zh || currentResult.hexagram.upper_trigram})
+                  {t('resultPage.upperTrigram')} - {t('resultPage.outerBehavior')} ({TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.name_zh || currentResult.hexagram.upper_trigram})
                 </h4>
                 <div className="space-y-1">
                   {currentResult.hexagram.lines.slice(3, 6).reverse().map((line, index) => (
@@ -470,7 +470,7 @@ const Result = () => {
               {/* 下卦 */}
               <div className="text-center">
                 <h4 className="text-sm font-medium text-blue-600 mb-3">
-                  下卦 - 内在动机 ({TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.name_zh || currentResult.hexagram.lower_trigram})
+                  {t('resultPage.lowerTrigram')} - {t('resultPage.innerMotivation')} ({TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.name_zh || currentResult.hexagram.lower_trigram})
                 </h4>
                 <div className="space-y-1">
                   {currentResult.hexagram.lines.slice(0, 3).reverse().map((line, index) => (
@@ -496,33 +496,33 @@ const Result = () => {
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mb-6 border border-blue-200">
             <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center">
               <Layers className="w-5 h-5 mr-2 text-blue-600" />
-              动机行为分析概览
+              {t('resultPage.motivationBehaviorAnalysis')}
             </h3>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="flex items-center space-x-3">
                 <Heart className="w-5 h-5 text-blue-500" />
                 <div>
-                  <span className="text-sm text-slate-600">内在动机：</span>
+                  <span className="text-sm text-slate-600">{t('resultPage.innerMotivation')}：</span>
                   <span className="font-medium text-slate-900 ml-1">{TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.name_zh || currentResult.hexagram.lower_trigram}</span>
-                  <div className="text-xs text-blue-600 mt-1">概率: {(() => {
+                  <div className="text-xs text-blue-600 mt-1">{t('resultPage.probability')}: {(() => {
                     const probs = enhancedBayesianEngine.getCurrentProbabilities();
                     const trigram = currentResult.hexagram.lower_trigram as keyof typeof probs.inner_motivation;
                     return Math.round((probs.inner_motivation[trigram] || 0.125) * 100);
                   })()}%</div>
-                  <div className="text-xs text-slate-500 mt-1">基于贝叶斯算法的内在动机匹配度</div>
+                  <div className="text-xs text-slate-500 mt-1">{t('resultPage.basedOnBayesian')}{t('resultPage.innerMotivationMatch')}</div>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Users className="w-5 h-5 text-purple-500" />
                 <div>
-                  <span className="text-sm text-slate-600">外在行为：</span>
+                  <span className="text-sm text-slate-600">{t('resultPage.outerBehavior')}：</span>
                   <span className="font-medium text-slate-900 ml-1">{TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.name_zh || currentResult.hexagram.upper_trigram}</span>
-                  <div className="text-xs text-purple-600 mt-1">概率: {(() => {
+                  <div className="text-xs text-purple-600 mt-1">{t('resultPage.probability')}: {(() => {
                     const probs = enhancedBayesianEngine.getCurrentProbabilities();
                     const trigram = currentResult.hexagram.upper_trigram as keyof typeof probs.outer_behavior;
                     return Math.round((probs.outer_behavior[trigram] || 0.125) * 100);
                   })()}%</div>
-                  <div className="text-xs text-slate-500 mt-1">基于贝叶斯算法的外在行为匹配度</div>
+                  <div className="text-xs text-slate-500 mt-1">{t('resultPage.basedOnBayesian')}{t('resultPage.outerBehaviorMatch')}</div>
                 </div>
               </div>
             </div>
@@ -532,12 +532,12 @@ const Result = () => {
           <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl p-6 mb-6 border border-yellow-200">
             <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center">
               <BookOpen className="w-5 h-5 mr-2 text-yellow-600" />
-              周易卦辞解析
+              {t('resultPage.yijingAnalysis')}
             </h3>
             <div className="prose prose-slate max-w-none space-y-4">
               {/* 易经原文解释 */}
               <div className="bg-white rounded-lg p-4 border border-yellow-100">
-                <h4 className="text-lg font-semibold text-yellow-800 mb-2">易经原文</h4>
+                <h4 className="text-lg font-semibold text-yellow-800 mb-2">{t('resultPage.yijingOriginalText')}</h4>
                 <p className="text-slate-700 leading-relaxed font-medium mb-3">
                   {currentResult.hexagram.name_zh}：{getHexagramDescription(currentResult.hexagram.name_zh)}
                 </p>
@@ -550,7 +550,7 @@ const Result = () => {
               
               {/* 心理学人格映射 */}
               <div className="bg-white rounded-lg p-4 border border-yellow-100">
-                <h4 className="text-lg font-semibold text-purple-800 mb-2">心理学人格映射</h4>
+                <h4 className="text-lg font-semibold text-purple-800 mb-2">{t('resultPage.psychologyMapping')}</h4>
                 <p className="text-slate-700 leading-relaxed">
                   从现代心理学角度分析，{currentResult.hexagram.name_zh}卦反映了{getPersonalityMapping(currentResult.hexagram.upper_trigram, currentResult.hexagram.lower_trigram)}的人格特质。
                   这种组合表明您在{getBehaviorPattern(currentResult.hexagram.upper_trigram)}方面表现突出，
@@ -563,32 +563,32 @@ const Result = () => {
           {/* 卦象详情 */}
           <div className="mb-8">
             <div className="bg-slate-50 rounded-xl p-6 max-w-4xl mx-auto">
-              <h3 className="text-lg font-semibold text-slate-900 mb-3">卦象构成解析</h3>
+              <h3 className="text-lg font-semibold text-slate-900 mb-3">{t('resultPage.hexagramComposition')}</h3>
               <div className="space-y-4">
                 {/* 卦象构成解析 */}
                 <div className="bg-white rounded-lg p-4 border border-slate-200">
-                  <h4 className="text-lg font-semibold text-slate-800 mb-4">卦象构成解析</h4>
+                  <h4 className="text-lg font-semibold text-slate-800 mb-4">{t('resultPage.hexagramComposition')}</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* 上卦 */}
                     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
                       <div className="flex items-center justify-between mb-3">
-                        <h5 className="font-semibold text-blue-800">上卦（外在表现）</h5>
+                        <h5 className="font-semibold text-blue-800">{t('resultPage.upperTrigram')}（{t('resultPage.outerExpression')}）</h5>
                         <span className="text-2xl">{TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.symbol}</span>
                       </div>
                       <div className="space-y-2 text-sm">
-                        <p><span className="font-medium">卦名：</span>{TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.name_zh}</p>
-                        <p><span className="font-medium">五行：</span>{
-                          TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element === 'metal' ? '金' :
-                          TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element === 'wood' ? '木' :
-                          TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element === 'water' ? '水' :
-                          TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element === 'fire' ? '火' :
-                          TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element === 'earth' ? '土' :
-                          TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element || '未知'
+                        <p><span className="font-medium">{t('resultPage.trigramName')}：</span>{TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.name_zh}</p>
+                        <p><span className="font-medium">{t('resultPage.fiveElements')}：</span>{
+                          TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element === 'metal' ? t('resultPage.elements.metal') :
+                            TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element === 'wood' ? t('resultPage.elements.wood') :
+                            TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element === 'water' ? t('resultPage.elements.water') :
+                            TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element === 'fire' ? t('resultPage.elements.fire') :
+                            TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element === 'earth' ? t('resultPage.elements.earth') :
+                            TRIGRAMS[currentResult.hexagram.upper_trigram as keyof typeof TRIGRAMS]?.element || t('resultPage.elements.unknown')
                         }</p>
                         
                         {/* 易经释义 */}
                         <div className="mt-3 p-3 bg-white rounded border border-blue-100">
-                          <h6 className="font-medium text-blue-700 mb-1">易经释义</h6>
+                          <h6 className="font-medium text-blue-700 mb-1">{t('resultPage.yijingInterpretation')}</h6>
                           <p className="text-slate-600 text-xs leading-relaxed">
                             {getTrigramYijingMeaning(currentResult.hexagram.upper_trigram)}
                           </p>
@@ -596,7 +596,7 @@ const Result = () => {
                         
                         {/* 心理特征 */}
                         <div className="mt-2 p-3 bg-white rounded border border-blue-100">
-                          <h6 className="font-medium text-purple-700 mb-1">心理特征</h6>
+                          <h6 className="font-medium text-purple-700 mb-1">{t('resultPage.psychologicalTraits')}</h6>
                           <p className="text-slate-600 text-xs leading-relaxed">
                             {getTrigramPsychologyMeaning(currentResult.hexagram.upper_trigram)}
                           </p>
@@ -607,23 +607,23 @@ const Result = () => {
                     {/* 下卦 */}
                     <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
                       <div className="flex items-center justify-between mb-3">
-                        <h5 className="font-semibold text-green-800">下卦（内在动机）</h5>
+                        <h5 className="font-semibold text-green-800">{t('resultPage.lowerTrigram')}（{t('resultPage.innerMotivation')}）</h5>
                         <span className="text-2xl">{TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.symbol}</span>
                       </div>
                       <div className="space-y-2 text-sm">
-                        <p><span className="font-medium">卦名：</span>{TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.name_zh}</p>
-                        <p><span className="font-medium">五行：</span>{
-                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element === 'metal' ? '金' :
-                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element === 'wood' ? '木' :
-                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element === 'water' ? '水' :
-                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element === 'fire' ? '火' :
-                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element === 'earth' ? '土' :
-                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element || '未知'
+                        <p><span className="font-medium">{t('resultPage.trigramName')}：</span>{TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.name_zh}</p>
+                        <p><span className="font-medium">{t('resultPage.fiveElements')}：</span>{
+                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element === 'metal' ? t('resultPage.elements.metal') :
+                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element === 'wood' ? t('resultPage.elements.wood') :
+                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element === 'water' ? t('resultPage.elements.water') :
+                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element === 'fire' ? t('resultPage.elements.fire') :
+                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element === 'earth' ? t('resultPage.elements.earth') :
+                          TRIGRAMS[currentResult.hexagram.lower_trigram as keyof typeof TRIGRAMS]?.element || t('resultPage.elements.unknown')
                         }</p>
                         
                         {/* 易经释义 */}
                         <div className="mt-3 p-3 bg-white rounded border border-green-100">
-                          <h6 className="font-medium text-green-700 mb-1">易经释义</h6>
+                          <h6 className="font-medium text-green-700 mb-1">{t('resultPage.yijingInterpretation')}</h6>
                           <p className="text-slate-600 text-xs leading-relaxed">
                             {getTrigramYijingMeaning(currentResult.hexagram.lower_trigram)}
                           </p>
@@ -631,7 +631,7 @@ const Result = () => {
                         
                         {/* 心理特征 */}
                         <div className="mt-2 p-3 bg-white rounded border border-green-100">
-                          <h6 className="font-medium text-purple-700 mb-1">心理特征</h6>
+                          <h6 className="font-medium text-purple-700 mb-1">{t('resultPage.psychologicalTraits')}</h6>
                           <p className="text-slate-600 text-xs leading-relaxed">
                             {getTrigramPsychologyMeaning(currentResult.hexagram.lower_trigram)}
                           </p>
@@ -657,12 +657,12 @@ const Result = () => {
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4">
                 <Target className="w-6 h-6 text-blue-600" />
               </div>
-              <h2 className="text-2xl font-bold text-slate-900">基础分析</h2>
+              <h2 className="text-2xl font-bold text-slate-900">{t('resultPage.basicAnalysis')}</h2>
             </div>
             
             {/* 核心人格 */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-slate-900 mb-3">核心人格特质</h3>
+              <h3 className="text-lg font-semibold text-slate-900 mb-3">{t('resultPage.corePersonalityTraits')}</h3>
               <p className="text-slate-700 leading-relaxed">{currentResult.basicAnalysis.corePersonality}</p>
             </div>
             
@@ -670,7 +670,7 @@ const Result = () => {
               <div className="bg-green-50 rounded-xl p-6 border border-green-200">
                 <h3 className="text-lg font-semibold text-green-800 mb-3 flex items-center">
                   <TrendingUp className="w-5 h-5 mr-2" />
-                  优势特质
+                  {t('resultPage.advantageTraits')}
                 </h3>
                 <ul className="space-y-2">
                   {currentResult.basicAnalysis.advantageTraits.map((strength, index) => (
@@ -684,7 +684,7 @@ const Result = () => {
               <div className="bg-orange-50 rounded-xl p-6 border border-orange-200">
                 <h3 className="text-lg font-semibold text-orange-800 mb-3 flex items-center">
                   <AlertTriangle className="w-5 h-5 mr-2" />
-                  挑战领域
+                  {t('resultPage.challengeAreas')}
                 </h3>
                 <ul className="space-y-2">
                   {currentResult.basicAnalysis.challengeAreas.map((challenge, index) => (
@@ -705,13 +705,13 @@ const Result = () => {
                 <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mr-4">
                   <Lightbulb className="w-6 h-6 text-green-600" />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-900">爻位分析</h2>
+                <h2 className="text-2xl font-bold text-slate-900">{t('resultPage.lineAnalysis')}</h2>
               </div>
               <div className="space-y-4">
                 {currentResult.lineAnalysis.lines.map((line, index) => (
                   <div key={index} className="bg-green-50 rounded-xl p-6 border border-green-200">
                     <h3 className="text-lg font-semibold text-green-800 mb-2">
-                      第{line.position}爻
+                      {t('resultPage.linePosition').replace('{position}', line.position.toString())}
                     </h3>
                     <p className="text-green-700 mb-3 font-medium">{line.meaning}</p>
                     <p className="text-green-600 leading-relaxed">{line.influence}</p>
@@ -729,7 +729,7 @@ const Result = () => {
                   <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mr-4">
                     <Network className="w-6 h-6 text-purple-600" />
                   </div>
-                  <h2 className="text-2xl font-bold text-slate-900">卦变网络关联</h2>
+                  <h2 className="text-2xl font-bold text-slate-900">{t('resultPage.hexagramNetworkRelation')}</h2>
                 </div>
                 <button
                   onClick={() => setShowHexagramExplanation(true)}
@@ -737,7 +737,7 @@ const Result = () => {
                   title="了解综卦和错卦"
                 >
                   <HelpCircle className="w-4 h-4 mr-2" />
-                  <span className="text-sm font-medium">什么是综卦和错卦？</span>
+                  <span className="text-sm font-medium">{t('resultPage.whatIsZongGuaCuoGua')}</span>
                 </button>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
@@ -745,7 +745,7 @@ const Result = () => {
                   <div className="bg-purple-50 rounded-xl p-6 border border-purple-200">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-lg font-semibold text-purple-800">
-                        综卦：{currentResult.relatedHexagrams.reverseHexagram.hexagram.name_zh}
+                        {t('resultPage.reverseHexagram')}：{currentResult.relatedHexagrams.reverseHexagram.hexagram.name_zh}
                       </h3>
                       <div className="text-xs">
                         {generateHexagramLines(
@@ -756,13 +756,13 @@ const Result = () => {
                     </div>
                     <div className="space-y-3">
                       <div className="bg-white rounded-lg p-3 border border-purple-100">
-                        <h4 className="font-medium text-purple-700 mb-1">周易释义</h4>
+                        <h4 className="font-medium text-purple-700 mb-1">{t('resultPage.yijingInterpretation')}</h4>
                         <p className="text-purple-600 text-sm leading-relaxed">
                           {getHexagramYijingExplanation(currentResult.relatedHexagrams.reverseHexagram.hexagram.name_zh.split('')[0])}
                         </p>
                       </div>
                       <div className="bg-white rounded-lg p-3 border border-purple-100">
-                        <h4 className="font-medium text-purple-700 mb-1">心理学解释</h4>
+                        <h4 className="font-medium text-purple-700 mb-1">{t('resultPage.psychologyExplanation')}</h4>
                         <p className="text-purple-600 text-sm leading-relaxed">
                           {getHexagramPsychologyExplanation(
                             currentResult.relatedHexagrams.reverseHexagram.hexagram.upper_trigram,
@@ -780,7 +780,7 @@ const Result = () => {
                   <div className="bg-orange-50 rounded-xl p-6 border border-orange-200">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-lg font-semibold text-orange-800">
-                        错卦：{currentResult.relatedHexagrams.oppositeHexagram.hexagram.name_zh}
+                        {t('resultPage.oppositeHexagram')}：{currentResult.relatedHexagrams.oppositeHexagram.hexagram.name_zh}
                       </h3>
                       <div className="text-xs">
                         {generateHexagramLines(
@@ -791,13 +791,13 @@ const Result = () => {
                     </div>
                     <div className="space-y-3">
                       <div className="bg-white rounded-lg p-3 border border-orange-100">
-                        <h4 className="font-medium text-orange-700 mb-1">周易释义</h4>
+                        <h4 className="font-medium text-orange-700 mb-1">{t('resultPage.yijingInterpretation')}</h4>
                         <p className="text-orange-600 text-sm leading-relaxed">
                           {getHexagramYijingExplanation(currentResult.relatedHexagrams.oppositeHexagram.hexagram.name_zh.split('')[0])}
                         </p>
                       </div>
                       <div className="bg-white rounded-lg p-3 border border-orange-100">
-                        <h4 className="font-medium text-orange-700 mb-1">心理学解释</h4>
+                        <h4 className="font-medium text-orange-700 mb-1">{t('resultPage.psychologyExplanation')}</h4>
                         <p className="text-orange-600 text-sm leading-relaxed">
                           {getHexagramPsychologyExplanation(
                             currentResult.relatedHexagrams.oppositeHexagram.hexagram.upper_trigram,
@@ -821,13 +821,13 @@ const Result = () => {
               <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mr-4">
                 <BookOpen className="w-6 h-6 text-indigo-600" />
               </div>
-              <h2 className="text-2xl font-bold text-slate-900">详细分析</h2>
+              <h2 className="text-2xl font-bold text-slate-900">{t('resultPage.detailedAnalysis')}</h2>
             </div>
             <div className="space-y-6">
               {/* 发展建议 */}
               <div className="bg-green-50 rounded-xl p-6 border border-green-200">
                 <h3 className="text-lg font-semibold text-green-800 mb-3">
-                  发展建议
+                  {t('resultPage.developmentSuggestions')}
                 </h3>
                 <div className="text-green-700 leading-relaxed">
                    {currentResult.detailedAnalysis.developmentSuggestions && currentResult.detailedAnalysis.developmentSuggestions.length > 0 ? (
@@ -840,7 +840,7 @@ const Result = () => {
                        ))}
                      </ul>
                    ) : (
-                     <p>暂无发展建议</p>
+                     <p>{t('resultPage.noDevelopmentSuggestions')}</p>
                    )}
                  </div>
               </div>
@@ -848,7 +848,7 @@ const Result = () => {
               {/* 职业指导 */}
               <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
                 <h3 className="text-lg font-semibold text-blue-800 mb-3">
-                  职业指导
+                  {t('resultPage.careerGuidance')}
                 </h3>
                 <p className="text-blue-700 leading-relaxed">{currentResult.detailedAnalysis.careerGuidance}</p>
               </div>
@@ -856,7 +856,7 @@ const Result = () => {
               {/* 人生哲学 */}
               <div className="bg-purple-50 rounded-xl p-6 border border-purple-200">
                 <h3 className="text-lg font-semibold text-purple-800 mb-3">
-                  人生哲学
+                  {t('resultPage.lifePhilosophy')}
                 </h3>
                 <p className="text-purple-700 leading-relaxed">{currentResult.detailedAnalysis.lifePhilosophy}</p>
               </div>
@@ -869,9 +869,9 @@ const Result = () => {
           <div className="flex items-start">
             <AlertTriangle className="w-6 h-6 text-amber-600 mt-1 mr-3 flex-shrink-0" />
             <div>
-              <h3 className="text-lg font-semibold text-amber-800 mb-2">重要提示</h3>
+              <h3 className="text-lg font-semibold text-amber-800 mb-2">{t('resultPage.importantNotice')}</h3>
               <p className="text-amber-700 leading-relaxed">
-                本测试结果基于易学文化和心理学理论，仅供个人成长参考。请理性看待结果，不要将其作为重大人生决策的唯一依据。每个人都是独特的，真正的成长需要结合实际情况和专业指导。
+                {t('resultPage.importantNoticeText')}
               </p>
             </div>
           </div>
@@ -884,7 +884,7 @@ const Result = () => {
             className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium"
           >
             <RefreshCw className="w-5 h-5 mr-2" />
-            重新测试
+            {t('resultPage.retakeTest')}
           </button>
           
           <button
@@ -892,7 +892,7 @@ const Result = () => {
             className="flex items-center px-6 py-3 bg-slate-600 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium"
           >
             <Clock className="w-5 h-5 mr-2" />
-            查看历史
+            {t('resultPage.viewHistory')}
           </button>
           
           <button
@@ -900,7 +900,7 @@ const Result = () => {
             className="flex items-center px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors font-medium"
           >
             <Share2 className="w-5 h-5 mr-2" />
-            分享结果
+            {t('resultPage.shareResult')}
           </button>
           
           <button
@@ -908,7 +908,7 @@ const Result = () => {
             className="flex items-center px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors font-medium"
           >
             <Download className="w-5 h-5 mr-2" />
-            下载报告
+            {t('resultPage.downloadReport')}
           </button>
         </div>
       </div>
@@ -918,7 +918,7 @@ const Result = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
-              <h3 className="text-2xl font-bold text-slate-900">综卦与错卦解释</h3>
+              <h3 className="text-2xl font-bold text-slate-900">{t('resultPage.hexagramExplanationTitle')}</h3>
               <button
                 onClick={() => setShowHexagramExplanation(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -932,25 +932,25 @@ const Result = () => {
               <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-6 border border-purple-200">
                 <h4 className="text-xl font-semibold text-purple-800 mb-4 flex items-center">
                   <BookOpen className="w-5 h-5 mr-2" />
-                  周易中的综卦与错卦
+                  {t('resultPage.yijingHexagramConcepts')}
                 </h4>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-white rounded-lg p-4 border border-purple-100">
-                    <h5 className="font-semibold text-purple-700 mb-2">综卦（反卦）</h5>
+                    <h5 className="font-semibold text-purple-700 mb-2">{t('resultPage.reverseHexagramConcept')}</h5>
                     <p className="text-purple-600 text-sm leading-relaxed mb-3">
-                      综卦是将原卦上下颠倒而成的卦象。在周易中，综卦代表事物的另一面或相反的状态，体现了阴阳转换的规律。
+                      {t('resultPage.reverseHexagramDescription')}
                     </p>
                     <p className="text-purple-600 text-sm leading-relaxed">
-                      <strong>哲学意义：</strong>揭示事物的对立统一性，提醒我们要从多角度看待问题，理解事物的完整性。
+                      <strong>{t('resultPage.philosophicalMeaning')}：</strong>{t('resultPage.reverseHexagramPhilosophy')}
                     </p>
                   </div>
                   <div className="bg-white rounded-lg p-4 border border-purple-100">
-                    <h5 className="font-semibold text-purple-700 mb-2">错卦（对卦）</h5>
+                    <h5 className="font-semibold text-purple-700 mb-2">{t('resultPage.oppositeHexagramConcept')}</h5>
                     <p className="text-purple-600 text-sm leading-relaxed mb-3">
-                      错卦是将原卦的每一爻都变为相反的爻（阳爻变阴爻，阴爻变阳爻）而成的卦象，代表完全相对的状态。
+                      {t('resultPage.oppositeHexagramDescription')}
                     </p>
                     <p className="text-purple-600 text-sm leading-relaxed">
-                      <strong>哲学意义：</strong>体现阴阳互补的智慧，说明任何事物都有其对立面，需要平衡发展。
+                      <strong>{t('resultPage.philosophicalMeaning')}：</strong>{t('resultPage.oppositeHexagramPhilosophy')}
                     </p>
                   </div>
                 </div>
@@ -960,25 +960,25 @@ const Result = () => {
               <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200">
                 <h4 className="text-xl font-semibold text-blue-800 mb-4 flex items-center">
                   <Users className="w-5 h-5 mr-2" />
-                  在人格测试中的解读意义
+                  {t('resultPage.personalityTestMeaning')}
                 </h4>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-white rounded-lg p-4 border border-blue-100">
-                    <h5 className="font-semibold text-blue-700 mb-2">综卦的人格意义</h5>
+                    <h5 className="font-semibold text-blue-700 mb-2">{t('resultPage.reverseHexagramPersonalityMeaning')}</h5>
                     <div className="space-y-2 text-blue-600 text-sm">
-                      <p><strong>• 潜在人格面：</strong>代表你在特定情境下可能展现的另一面人格特质</p>
-                      <p><strong>• 发展方向：</strong>指示你人格成长和完善的可能路径</p>
-                      <p><strong>• 平衡需求：</strong>提醒你需要关注和发展的互补特质</p>
-                      <p><strong>• 适应能力：</strong>在不同环境中调整自己的能力倾向</p>
+                      <p><strong>• {t('resultPage.potentialPersonality')}：</strong>{t('resultPage.potentialPersonalityDesc')}</p>
+                      <p><strong>• {t('resultPage.developmentDirection')}：</strong>{t('resultPage.developmentDirectionDesc')}</p>
+                      <p><strong>• {t('resultPage.balanceNeeds')}：</strong>{t('resultPage.balanceNeedsDesc')}</p>
+                      <p><strong>• {t('resultPage.adaptability')}：</strong>{t('resultPage.adaptabilityDesc')}</p>
                     </div>
                   </div>
                   <div className="bg-white rounded-lg p-4 border border-blue-100">
-                    <h5 className="font-semibold text-blue-700 mb-2">错卦的人格意义</h5>
+                    <h5 className="font-semibold text-blue-700 mb-2">{t('resultPage.oppositeHexagramPersonalityMeaning')}</h5>
                     <div className="space-y-2 text-blue-600 text-sm">
-                      <p><strong>• 互补特质：</strong>与你主要人格特质形成互补的品质</p>
-                      <p><strong>• 成长空间：</strong>指出你可以学习和发展的对立面特质</p>
-                      <p><strong>• 完整人格：</strong>帮助你理解人格的全面性和复杂性</p>
-                      <p><strong>• 平衡发展：</strong>提示你在人格发展中需要平衡的方面</p>
+                      <p><strong>• {t('resultPage.complementaryTraits')}：</strong>{t('resultPage.complementaryTraitsDesc')}</p>
+                      <p><strong>• {t('resultPage.growthSpace')}：</strong>{t('resultPage.growthSpaceDesc')}</p>
+                      <p><strong>• {t('resultPage.completePersonality')}：</strong>{t('resultPage.completePersonalityDesc')}</p>
+                      <p><strong>• {t('resultPage.balancedDevelopment')}：</strong>{t('resultPage.balancedDevelopmentDesc')}</p>
                     </div>
                   </div>
                 </div>
@@ -988,21 +988,21 @@ const Result = () => {
               <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
                 <h4 className="text-xl font-semibold text-green-800 mb-4 flex items-center">
                   <Target className="w-5 h-5 mr-2" />
-                  实际应用指导
+                  {t('resultPage.practicalGuidance')}
                 </h4>
                 <div className="bg-white rounded-lg p-4 border border-green-100">
                   <div className="grid md:grid-cols-3 gap-4 text-sm">
                     <div>
-                      <h6 className="font-semibold text-green-700 mb-2">自我认知</h6>
-                      <p className="text-green-600">通过综卦和错卦，更全面地了解自己的人格特质，包括显性和隐性的方面。</p>
+                      <h6 className="font-semibold text-green-700 mb-2">{t('resultPage.selfAwareness')}</h6>
+                      <p className="text-green-600">{t('resultPage.selfAwarenessDesc')}</p>
                     </div>
                     <div>
-                      <h6 className="font-semibold text-green-700 mb-2">人际关系</h6>
-                      <p className="text-green-600">理解他人可能具有与你互补的特质，有助于建立更和谐的人际关系。</p>
+                      <h6 className="font-semibold text-green-700 mb-2">{t('resultPage.interpersonalRelations')}</h6>
+                      <p className="text-green-600">{t('resultPage.interpersonalRelationsDesc')}</p>
                     </div>
                     <div>
-                      <h6 className="font-semibold text-green-700 mb-2">个人发展</h6>
-                      <p className="text-green-600">参考综卦和错卦的特质，制定更全面的个人成长计划。</p>
+                      <h6 className="font-semibold text-green-700 mb-2">{t('resultPage.personalDevelopment')}</h6>
+                      <p className="text-green-600">{t('resultPage.personalDevelopmentDesc')}</p>
                     </div>
                   </div>
                 </div>
@@ -1014,7 +1014,7 @@ const Result = () => {
                   onClick={() => setShowHexagramExplanation(false)}
                   className="px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors font-medium"
                 >
-                  我明白了
+                  {t('resultPage.understood')}
                 </button>
               </div>
             </div>
