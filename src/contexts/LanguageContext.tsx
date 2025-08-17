@@ -235,7 +235,81 @@ const translations = {
     homeFooter: {
       title: "准备好探索真实的自己了吗？",
       description: "只需10道问题，即可获得专属的人格卦象分析报告"
-    }
+    },
+
+    // About page language context
+    aboutProject: '关于项目',
+    aboutPage: {
+      title: '人格卦象映射系统',
+      description: '这是一个创新的心理测评平台，将现代心理学理论与中国传统周易智慧相结合。 通过AI驱动的自适应问题生成技术，为用户提供个性化的人格分析和生活指导。 我们相信，古老的智慧与现代科技的结合，能够为现代人的自我认知和成长提供独特的价值。'
+    },
+    aboutFeatures: {
+      text: '核心特性',
+      f1: {
+        title: 'AI智能测评',
+        text: '采用先进的自适应算法，根据用户答案动态生成个性化问题，确保测试的准确性和针对性。'
+      },
+      f2: {
+        title: '个性化分析',
+        text: '基于测试结果提供详细的人格分析、问题识别、解决方案和近期运势指导。'
+      },
+      f3: {
+        title: '周易卦象映射',
+        text: '将现代心理学理论与传统周易智慧相结合，通过科学算法将人格特质映射到对应的卦象。'
+      },
+      f4: {
+        title: '隐私保护',
+        text: '所有数据仅存储在本地浏览器中，确保用户隐私安全，无需注册即可使用。'
+      },
+    },
+    tech: {
+      title: '技术栈',
+      t1: '现代化前端框架',
+      t2: '类型安全的JavaScript',
+      t3: '实用优先的CSS框架',
+      t4: '轻量级状态管理',
+      t5: '快速构建工具',
+      t6: '周易计算核心库'
+    },
+    opensource: '开源项目',
+    mitLicense: {
+      title: 'MIT 开源协议',
+      description: '本项目采用 MIT 开源协议，允许任何人自由使用、修改和分发代码。 我们鼓励社区贡献和协作开发，共同完善这个项目。',
+      check: '查看源码',
+      star: '给个 Star'
+    },
+    thirdparties: {
+      title: '第三方库引用',
+      bazi: '用于周易卦象计算的核心库。',
+      baziText: '请确保遵守其开源协议要求，在使用时保留原作者信息和协议声明。',
+      otherLead: '其他依赖:',
+      others: ' React、TypeScript、Tailwind CSS 等现代前端技术栈。',
+      othersText: '所有依赖库均为开源项目，感谢开源社区的贡献。'
+    },
+    thanks: {
+      title: '致谢',
+      c1: {
+        name: '开发团队',
+        role: '项目开发与维护',
+        description: '负责整体架构设计、功能开发和用户体验优化'
+      },
+      c2: {
+        name: 'Bazi Library',
+        role: '周易计算支持',
+        description: '提供专业的周易卦象计算算法和数据支持'
+      },
+      c3: {
+        name: '开源社区',
+        role: '技术支持',
+        description: '感谢所有开源项目和社区贡献者的无私奉献'
+      }
+    },
+    contactUs: {
+      title: '联系我们',
+      description: '如果您有任何问题、建议或想要参与项目开发，欢迎通过以下方式联系我们：',
+      start: '开始体验'
+    },
+    copyrightLicense: '© 2025 PsyChing. 本项目采用 MIT 开源协议'
   },
   en: {
     // Navigation
@@ -466,6 +540,88 @@ const translations = {
       description:
         "With just 10 questions, you can receive your exclusive personality hexagram analysis report.",
     },
+
+    // About page language context
+    aboutProject: "About the Project",
+    aboutPage: {
+      title: "Personality Hexagram Mapping System",
+      description:
+        "This is an innovative psychological assessment platform that combines modern psychological theories with the wisdom of the Chinese I Ching. Through AI-driven adaptive question generation, it provides users with personalized personality analysis and life guidance. We believe that the integration of ancient wisdom and modern technology can offer unique value to self-awareness and personal growth in the modern world.",
+    },
+    aboutFeatures: {
+      text: "Core Features",
+      f1: {
+        title: "AI Smart Assessment",
+        text: "Uses advanced adaptive algorithms to dynamically generate personalized questions based on user responses, ensuring accuracy and relevance of the test.",
+      },
+      f2: {
+        title: "Personalized Analysis",
+        text: "Provides detailed personality analysis, problem identification, solutions, and short-term fortune guidance based on test results.",
+      },
+      f3: {
+        title: "I Ching Hexagram Mapping",
+        text: "Integrates modern psychological theories with traditional I Ching wisdom, scientifically mapping personality traits to corresponding hexagrams.",
+      },
+      f4: {
+        title: "Privacy Protection",
+        text: "All data is stored only in the local browser, ensuring user privacy and security. No registration is required to use.",
+      },
+    },
+    tech: {
+      title: "Technology Stack",
+      t1: "Modern Front-End Framework",
+      t2: "Type-Safe JavaScript",
+      t3: "Utility-First CSS Framework",
+      t4: "Lightweight State Management",
+      t5: "Fast Build Tools",
+      t6: "I Ching Calculation Core Library",
+    },
+    opensource: "Open Source Project",
+    mitLicense: {
+      title: "MIT License",
+      description:
+        "This project is licensed under the MIT License, allowing anyone to freely use, modify, and distribute the code. We encourage community contributions and collaborative development to continuously improve this project.",
+      check: "View Source Code",
+      star: "Give a Star",
+    },
+    thirdparties: {
+      title: "Third-Party Libraries",
+      bazi: "Core library for I Ching hexagram calculations.",
+      baziText:
+        "Please ensure compliance with its open-source license by retaining author information and license statements when using it.",
+      otherLead: "Other dependencies:",
+      others: "React, TypeScript, Tailwind CSS, and other modern front-end technologies.",
+      othersText:
+        "All dependencies are open-source projects. We appreciate the contributions of the open-source community.",
+    },
+    thanks: {
+      title: "Acknowledgements",
+      c1: {
+        name: "Development Team",
+        role: "Project Development & Maintenance",
+        description:
+          "Responsible for overall architecture design, feature development, and user experience optimization.",
+      },
+      c2: {
+        name: "Bazi Library",
+        role: "I Ching Calculation Support",
+        description:
+          "Provides professional I Ching hexagram calculation algorithms and data support.",
+      },
+      c3: {
+        name: "Open Source Community",
+        role: "Technical Support",
+        description:
+          "Grateful for the selfless contributions of all open-source projects and community contributors.",
+      },
+    },
+    contactUs: {
+      title: "Contact Us",
+      description:
+        "If you have any questions, suggestions, or would like to participate in project development, feel free to reach out to us through the following:",
+      start: "Get Started",
+    },
+    copyrightLicense: '© 2025 PsyChing. This project is licensed under MIT'
   }
 };
 
