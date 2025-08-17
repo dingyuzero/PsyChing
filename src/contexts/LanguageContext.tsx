@@ -25,7 +25,7 @@ const translations = {
     memberFeature: '会员功能',
     memberFeatureDesc: '升级会员解锁更多功能',
     copyright: '版权所有',
-    
+
     // 首页
     title: '人格卦象测试',
     subtitle: '基于周易八卦的心理测试',
@@ -46,7 +46,7 @@ const translations = {
     step2Desc: '系统根据你的答案计算对应卦象',
     step3: '查看报告',
     step3Desc: '获得详细的人格分析和建议',
-    
+
     // 测试页面
     preparingTest: '正在准备测试...',
     testInitFailed: '测试初始化失败',
@@ -65,7 +65,7 @@ const translations = {
     minutes: '分钟',
     completed: '完成',
     processing: '处理中',
-    
+
     // 结果页面
     testResult: '测试结果',
     hexagram: '卦象',
@@ -97,7 +97,7 @@ const translations = {
     saving: '保存中',
     saved: '已保存',
     questionsUnit: '题',
-    
+
     // 历史记录页面
     testHistory: '测试历史',
     loading: '正在加载历史记录...',
@@ -119,7 +119,7 @@ const translations = {
     clearAll: '清空所有记录',
     deleteConfirm: '确定要删除这个测试结果吗？',
     clearAllConfirm: '确定要清空所有历史记录吗？此操作不可恢复。',
-    
+
     // 消息提示
     testResultSaved: '测试结果已保存',
     testResultDeleted: '测试结果已删除',
@@ -131,7 +131,7 @@ const translations = {
     dataImported: '数据导入成功',
     importFailed: '导入失败，请检查文件格式',
     loadHistoryFailed: '加载历史记录失败',
-    
+
     // 通用
     confirm: '确认',
     cancel: '取消',
@@ -139,7 +139,7 @@ const translations = {
     save: '保存',
     edit: '编辑',
     view: '查看',
-    
+
     // 问题和选项翻译
     testQuestions: {
       q1: {
@@ -194,6 +194,47 @@ const translations = {
         text: '你对未来的感知通常是：',
         scaleLabels: ['完全依赖计划', '平衡计划与直觉', '主要凭借直觉']
       }
+    },
+
+    // Home page language context
+    homePage: {
+      title: "探索内在自我，解锁人格密码",
+      description: "基于易学智慧与现代心理学的创新人格测试，通过10道精准问题，为你揭示独特的人格卦象",
+    },
+    more: "了解更多",
+    stats: {
+      process: {
+        stat: "2阶段",
+        text: "测试流程"
+      },
+      type: {
+        stat: "64",
+        text: "卦象类型"
+      },
+      questions: {
+        stat: "10题",
+        text: "精准测试"
+      }
+    },
+    featureList: {
+      title: "核心特色",
+      description: "融合传统智慧与现代科技，为你提供独特的人格洞察体验"
+    },
+    feature1: {
+      title: "AI智能测评",
+      description: "采用先进的自适应算法，根据你的回答动态生成个性化问题，每次测试仅需10个问题即可深度了解你的内心世界。"
+    },
+    feature2: {
+      title: "卦象映射技术",
+      description: "独创的心理测量与周易卦象结合算法，将现代心理学与传统文化智慧完美融合，为你提供独特的人格洞察。"
+    },
+    feature3: {
+      title: "个性化分析",
+      description: "基于你的测试结果，提供详细的人格特点分析、潜在挑战识别、发展建议和运势预测，助力个人成长。"
+    },
+    homeFooter: {
+      title: "准备好探索真实的自己了吗？",
+      description: "只需10道问题，即可获得专属的人格卦象分析报告"
     }
   },
   en: {
@@ -208,7 +249,7 @@ const translations = {
     memberFeature: 'Member Feature',
     memberFeatureDesc: 'Upgrade to unlock more features',
     copyright: 'All rights reserved',
-    
+
     // Home page
     title: 'Personality Hexagram Test',
     subtitle: 'Psychological test based on I Ching Eight Trigrams',
@@ -229,7 +270,7 @@ const translations = {
     step2Desc: 'System calculates corresponding hexagram based on your answers',
     step3: 'View Report',
     step3Desc: 'Get detailed personality analysis and suggestions',
-    
+
     // Test page
     preparingTest: 'Preparing test...',
     testInitFailed: 'Test initialization failed',
@@ -248,7 +289,7 @@ const translations = {
     minutes: 'minutes',
     completed: 'completed',
     processing: 'Processing',
-    
+
     // Result page
     testResult: 'Test Result',
     hexagram: 'Hexagram',
@@ -280,7 +321,7 @@ const translations = {
     saving: 'Saving',
     saved: 'Saved',
     questionsUnit: 'questions',
-    
+
     // History page
     testHistory: 'Test History',
     loading: 'Loading history...',
@@ -302,7 +343,7 @@ const translations = {
     clearAll: 'Clear All Records',
     deleteConfirm: 'Are you sure you want to delete this test result?',
     clearAllConfirm: 'Are you sure you want to clear all history records? This action cannot be undone.',
-    
+
     // Messages
     testResultSaved: 'Test result saved',
     testResultDeleted: 'Test result deleted',
@@ -314,7 +355,7 @@ const translations = {
     dataImported: 'Data imported successfully',
     importFailed: 'Import failed, please check file format',
     loadHistoryFailed: 'Failed to load history',
-    
+
     // Common
     confirm: 'Confirm',
     cancel: 'Cancel',
@@ -322,7 +363,7 @@ const translations = {
     save: 'Save',
     edit: 'Edit',
     view: 'View',
-    
+
     // Questions and options translation
     testQuestions: {
       q1: {
@@ -377,7 +418,54 @@ const translations = {
         text: 'Your perception of the future is usually:',
         scaleLabels: ['Completely rely on planning', 'Balance planning and intuition', 'Mainly rely on intuition']
       }
-    }
+    },
+
+    // Home page language context
+    homePage: {
+      title: "Explore Your Inner Self, Unlock the Personality Code",
+      description:
+        "An innovative personality test based on the wisdom of I Ching and modern psychology. Through 10 precise questions, it reveals your unique personality hexagram.",
+    },
+    more: "Learn More",
+    stats: {
+      process: {
+        stat: "2 Stages",
+        text: "Test Process",
+      },
+      type: {
+        stat: "64",
+        text: "Hexagram Types",
+      },
+      questions: {
+        stat: "10 Questions",
+        text: "Precise Test",
+      },
+    },
+    featureList: {
+      title: "Core Features",
+      description:
+        "Combining traditional wisdom with modern technology to provide you with a unique personality insight experience.",
+    },
+    feature1: {
+      title: "AI Smart Assessment",
+      description:
+        "Using advanced adaptive algorithms, personalized questions are dynamically generated based on your responses. Each test requires only 10 questions to deeply understand your inner world.",
+    },
+    feature2: {
+      title: "Hexagram Mapping Technology",
+      description:
+        "An original algorithm that integrates psychological measurement with I Ching hexagrams, perfectly merging modern psychology with traditional cultural wisdom to provide unique personality insights.",
+    },
+    feature3: {
+      title: "Personalized Analysis",
+      description:
+        "Based on your test results, it provides detailed analysis of personality traits, identification of potential challenges, development suggestions, and fortune predictions to support personal growth.",
+    },
+    homeFooter: {
+      title: "Ready to Explore the Real You?",
+      description:
+        "With just 10 questions, you can receive your exclusive personality hexagram analysis report.",
+    },
   }
 };
 
@@ -397,10 +485,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     updateUserPreferences({ language: lang });
   };
 
-  const t = (key: string): any => {
+  const t = (key: string) => {
     const keys = key.split('.');
-    let value: any = translations[language];
-    
+    let value = translations[language];
+
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
         value = value[k];
@@ -408,7 +496,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         return key; // 返回原始键名如果找不到翻译
       }
     }
-    
+
     return value || key;
   };
 
