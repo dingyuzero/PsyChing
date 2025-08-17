@@ -309,7 +309,21 @@ const translations = {
       description: '如果您有任何问题、建议或想要参与项目开发，欢迎通过以下方式联系我们：',
       start: '开始体验'
     },
-    copyrightLicense: '© 2025 PsyChing. 本项目采用 MIT 开源协议'
+    copyrightLicense: '© 2025 PsyChing. 本项目采用 MIT 开源协议',
+
+    // History page language context
+    downloadFile: '人格卦象测试数据',
+    selectDelete1: '确定要删除选中的',
+    selectDelete2: '个测试结果吗？',
+    deleteSuccess1: '已删除',
+    deleteSuccess2: '个测试结果',
+    alertResult1: '卦象：',
+    alertResult2: '核心人格：',
+    noHistory: '暂无测试记录',
+    historyGetStarted: '开始您的第一次人格卦象测试，探索内在的自己',
+    historyQuestions: '10 题',
+    guaNumber: '卦数: ',
+    historyConfidence: '置信度: '
   },
   en: {
     // Navigation
@@ -621,8 +635,22 @@ const translations = {
         "If you have any questions, suggestions, or would like to participate in project development, feel free to reach out to us through the following:",
       start: "Get Started",
     },
-    copyrightLicense: '© 2025 PsyChing. This project is licensed under MIT'
-  }
+    copyrightLicense: '© 2025 PsyChing. This project is licensed under MIT',
+
+    // History page language context
+    downloadFile: "Personality Hexagram Test Data",
+    selectDelete1: "Are you sure you want to delete the selected",
+    selectDelete2: "test result(s)?",
+    deleteSuccess1: "Deleted",
+    deleteSuccess2: "test result(s)",
+    alertResult1: "Hexagram: ",
+    alertResult2: "Core Personality: ",
+    noHistory: "No test records available",
+    historyGetStarted: "Start your first Personality Hexagram Test and explore your inner self",
+    historyQuestions: "10 Questions",
+    guaNumber: "Hexagram Number: ",
+    historyConfidence: "Confidence: ",
+  },
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

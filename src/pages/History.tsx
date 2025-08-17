@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
 import { getTestHistory, deleteTestResult, clearTestHistory, exportData, importData } from '../utils/localStorage';
 import { HexagramResult } from '../types';
-import { 
-  ArrowLeft, 
-  Calendar, 
-  Trash2, 
-  Download, 
-  Upload, 
+import {
+  ArrowLeft,
+  Calendar,
+  Trash2,
+  Download,
+  Upload,
   RefreshCw,
   Search,
   Filter,
@@ -25,6 +26,7 @@ const History = () => {
   const [sortBy, setSortBy] = useState<'date' | 'hexagram'>('date');
   const [isLoading, setIsLoading] = useState(true);
   const [selectedResults, setSelectedResults] = useState<Set<string>>(new Set());
+  const { t } = useLanguage()
 
   useEffect(() => {
     loadHistory();
@@ -40,7 +42,7 @@ const History = () => {
         const testHistory = getTestHistory();
         setHistory(testHistory);
       } catch (error) {
-        toast.error('加载历史记录失败');
+        toast.error(t('loadHistoryFailed'));
       } finally {
         setIsLoading(false);
       }
@@ -51,7 +53,7 @@ const History = () => {
 
     // 搜索过滤
     if (searchTerm) {
-      filtered = filtered.filter(result => 
+      filtered = filtered.filter(result =>
         result.hexagram.name_zh.toLowerCase().includes(searchTerm.toLowerCase()) ||
         result.basicAnalysis.corePersonality.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -70,7 +72,7 @@ const History = () => {
   };
 
   const handleDeleteResult = (id: string) => {
-    if (window.confirm('确定要删除这个测试结果吗？')) {
+    if (window.confirm(t('deleteConfirm'))) {
       try {
         deleteTestResult(id);
         // 立即更新本地状态
@@ -81,25 +83,25 @@ const History = () => {
           newSet.delete(id);
           return newSet;
         });
-        toast.success('测试结果已删除');
+        toast.success(t('testResultDeleted'));
       } catch (error) {
         console.error('Delete error:', error);
-        toast.error('删除失败');
+        toast.error(t('deleteFailed'));
       }
     }
   };
 
   const handleClearAll = () => {
-    if (window.confirm('确定要清空所有测试历史吗？此操作不可恢复。')) {
+    if (window.confirm(t('clearAllConfirm'))) {
       try {
         clearTestHistory();
         // 立即更新本地状态
         setHistory([]);
         setSelectedResults(new Set());
-        toast.success('历史记录已清空');
+        toast.success(t('historyCleared'));
       } catch (error) {
         console.error('Clear error:', error);
-        toast.error('清空失败');
+        toast.error(t('clearFailed'));
       }
     }
   };
@@ -111,14 +113,14 @@ const History = () => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `人格卦象测试数据_${new Date().toLocaleDateString()}.json`;
+        a.download = `${t('downloadFile')}_${new Date().toLocaleDateString()}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        toast.success('数据导出成功');
+        toast.success(t('dataExported'));
       } catch (error) {
-        toast.error('导出失败');
+        toast.error(t('exportFailed'));
       }
   };
 
@@ -132,13 +134,13 @@ const History = () => {
         const data = e.target?.result as string;
         importData(data);
         loadHistory();
-        toast.success('数据导入成功');
+        toast.success(t('dataImported'));
       } catch (error) {
-        toast.error('导入失败');
+        toast.error(t('importFailed'));
       }
     };
     reader.readAsText(file);
-    
+
     // 重置文件输入
     event.target.value = '';
   };
@@ -165,23 +167,23 @@ const History = () => {
 
   const handleDeleteSelected = () => {
     if (selectedResults.size === 0) return;
-    
-    if (window.confirm(`确定要删除选中的 ${selectedResults.size} 个测试结果吗？`)) {
+
+    if (window.confirm(`${t('selectDelete1')} ${selectedResults.size} ${t('selectDelete2')}`)) {
       try {
         const deleteCount = selectedResults.size;
         const idsToDelete = Array.from(selectedResults);
-        
+
         // 批量删除
         idsToDelete.forEach(id => deleteTestResult(id));
-        
+
         // 立即更新本地状态
         setHistory(prev => prev.filter(item => !selectedResults.has(item.id)));
         setSelectedResults(new Set());
-        
-        toast.success(`已删除 ${deleteCount} 个测试结果`);
+
+        toast.success(`${t('deleteSuccess1')} ${deleteCount} ${t('deleteSuccess2')}`);
       } catch (error) {
         console.error('Batch delete error:', error);
-        toast.error('删除失败');
+        toast.error(t('deleteFailed'));
       }
     }
   };
@@ -189,7 +191,7 @@ const History = () => {
   const handleViewResult = (result: HexagramResult) => {
     // 这里可以实现查看详细结果的功能
     // 暂时使用 alert 显示
-    alert(`卦象：${result.hexagram.name_zh}\n\n核心人格：${result.basicAnalysis.corePersonality.slice(0, 100)}...`);
+    alert(`${t('alertResult1')}${result.hexagram.name_zh}\n\n${t('alertResult2')}${result.basicAnalysis.corePersonality.slice(0, 100)}...`);
   };
 
   if (isLoading) {
@@ -197,7 +199,7 @@ const History = () => {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-600">加载中...</p>
+          <p className="text-slate-600">{t('loading')}</p>
         </div>
       </div>
     );
@@ -214,11 +216,11 @@ const History = () => {
               className="flex items-center text-slate-600 hover:text-slate-900 transition-colors mr-6"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
-              返回首页
+              {t('backToHome')}
             </button>
-            <h1 className="text-3xl font-bold text-slate-900">测试历史</h1>
+            <h1 className="text-3xl font-bold text-slate-900">{t('testHistory')}</h1>
           </div>
-          
+
           <div className="flex items-center space-x-3">
             <button
               onClick={loadHistory}
@@ -227,18 +229,18 @@ const History = () => {
             >
               <RefreshCw className="w-5 h-5" />
             </button>
-            
+
             <button
               onClick={handleExportData}
               className="flex items-center px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-white rounded-lg transition-colors"
             >
-              <Download className="w-4 h-4 mr-2" />
-              导出
-            </button>
-            
-            <label className="flex items-center px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-white rounded-lg transition-colors cursor-pointer">
               <Upload className="w-4 h-4 mr-2" />
-              导入
+              {t('export')}
+            </button>
+
+            <label className="flex items-center px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-white rounded-lg transition-colors cursor-pointer">
+              <Download className="w-4 h-4 mr-2" />
+              {t('import')}
               <input
                 type="file"
                 accept=".json"
@@ -256,13 +258,13 @@ const History = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="搜索卦象名称或人格特质..."
+                placeholder={t('searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            
+
             <div className="flex items-center space-x-3">
               <div className="flex items-center">
                 <Filter className="w-5 h-5 text-slate-400 mr-2" />
@@ -271,26 +273,26 @@ const History = () => {
                   onChange={(e) => setSortBy(e.target.value as 'date' | 'hexagram')}
                   className="border border-slate-200 rounded-lg px-3 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="date">按时间排序</option>
-                  <option value="hexagram">按卦象排序</option>
+                  <option value="date">{t('sortByDate')}</option>
+                  <option value="hexagram">{t('sortByHexagram')}</option>
                 </select>
               </div>
-              
+
               {filteredHistory.length > 0 && (
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={handleSelectAll}
                     className="px-3 py-2 text-sm border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
                   >
-                    {selectedResults.size === filteredHistory.length ? '取消全选' : '全选'}
+                    {selectedResults.size === filteredHistory.length ? t('deselectAll') : t('selectAll')}
                   </button>
-                  
+
                   {selectedResults.size > 0 && (
                     <button
                       onClick={handleDeleteSelected}
                       className="px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                     >
-                      删除选中 ({selectedResults.size})
+                      {t('deleteSelected')} ({selectedResults.size})
                     </button>
                   )}
                 </div>
@@ -305,20 +307,20 @@ const History = () => {
             {history.length === 0 ? (
               <>
                 <FileText className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">暂无测试记录</h3>
-                <p className="text-slate-600 mb-6">开始您的第一次人格卦象测试，探索内在的自己</p>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">{t('noHistory')}</h3>
+                <p className="text-slate-600 mb-6">{t('historyGetStarted')}</p>
                 <button
                   onClick={() => navigate('/test')}
                   className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  开始测试
+                  {t('test')}
                 </button>
               </>
             ) : (
               <>
                 <Search className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">未找到匹配的记录</h3>
-                <p className="text-slate-600">尝试调整搜索条件或清空搜索框</p>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-2">{t('noMatchingRecords')}</h3>
+                  <p className="text-slate-600">{t('noMatchingRecordsDesc')}</p>
               </>
             )}
           </div>
@@ -339,7 +341,7 @@ const History = () => {
                       onChange={() => handleSelectResult(result.id)}
                       className="mt-1 w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
                     />
-                    
+
                     <div className="flex-1">
                       <div className="flex items-center mb-3">
                         <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center mr-4">
@@ -352,20 +354,20 @@ const History = () => {
                           </p>
                         </div>
                       </div>
-                      
+
                       <p className="text-slate-600 leading-relaxed mb-4">
                         {result.basicAnalysis.corePersonality.slice(0, 150)}...
                       </p>
-                      
+
                       <div className="flex items-center text-sm text-slate-500">
                         <Calendar className="w-4 h-4 mr-1" />
-                        <span className="mr-4">10 题</span>
-                        <span>卦数: {result.hexagram.gua_number}</span>
-                        <span className="ml-4">置信度: {Math.round(result.confidence * 100)}%</span>
+                        <span className="mr-4">{t('historyQuestions')}</span>
+                        <span>{t('guaNumber')}{result.hexagram.gua_number}</span>
+                        <span className="ml-4">{t('historyConfidence')}{Math.round(result.confidence * 100)}%</span>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center space-x-2 ml-4">
                     <button
                       onClick={() => handleViewResult(result)}
@@ -374,7 +376,7 @@ const History = () => {
                     >
                       <Eye className="w-5 h-5" />
                     </button>
-                    
+
                     <button
                       onClick={() => handleDeleteResult(result.id)}
                       className="p-2 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
@@ -396,14 +398,14 @@ const History = () => {
               onClick={() => navigate('/test')}
               className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
-              开始新测试
+              {t('startNewTest')}
             </button>
-            
+
             <button
               onClick={handleClearAll}
               className="px-6 py-3 border-2 border-red-300 text-red-600 rounded-lg hover:border-red-400 hover:bg-red-50 transition-all duration-200"
             >
-              清空全部
+              {t('clearAll')}
             </button>
           </div>
         )}
