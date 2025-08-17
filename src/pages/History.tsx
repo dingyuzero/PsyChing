@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
 import { getTestHistory, deleteTestResult, clearTestHistory, exportData, importData } from '../utils/localStorage';
 import { HexagramResult } from '../types';
-import { 
-  ArrowLeft, 
-  Calendar, 
-  Trash2, 
-  Download, 
-  Upload, 
+import {
+  ArrowLeft,
+  Calendar,
+  Trash2,
+  Download,
+  Upload,
   RefreshCw,
   Search,
   Filter,
@@ -16,7 +17,6 @@ import {
   FileText
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { useLanguage } from '../contexts/LanguageContext';
 
 const History = () => {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const History = () => {
 
     // 搜索过滤
     if (searchTerm) {
-      filtered = filtered.filter(result => 
+      filtered = filtered.filter(result =>
         result.hexagram.name_zh.toLowerCase().includes(searchTerm.toLowerCase()) ||
         result.basicAnalysis.corePersonality.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -140,7 +140,7 @@ const History = () => {
       }
     };
     reader.readAsText(file);
-    
+
     // 重置文件输入
     event.target.value = '';
   };
@@ -172,15 +172,20 @@ const History = () => {
       try {
         const deleteCount = selectedResults.size;
         const idsToDelete = Array.from(selectedResults);
-        
+
         // 批量删除
         idsToDelete.forEach(id => deleteTestResult(id));
-        
+
         // 立即更新本地状态
         setHistory(prev => prev.filter(item => !selectedResults.has(item.id)));
         setSelectedResults(new Set());
+<<<<<<< HEAD
         
         toast.success(t('deletedCount').replace('{count}', deleteCount.toString()));
+=======
+
+        toast.success(`${t('deleteSuccess1')} ${deleteCount} ${t('deleteSuccess2')}`);
+>>>>>>> 488e24fe74fab8d5f115b7bc2ec3f1b08d53e73f
       } catch (error) {
         console.error('Batch delete error:', error);
         toast.error(t('deleteFailed'));
@@ -191,7 +196,11 @@ const History = () => {
   const handleViewResult = (result: HexagramResult) => {
     // 这里可以实现查看详细结果的功能
     // 暂时使用 alert 显示
+<<<<<<< HEAD
     alert(`${t('hexagram')}：${result.hexagram.name_zh}\n\n${t('corePersonality')}：${result.basicAnalysis.corePersonality.slice(0, 100)}...`);
+=======
+    alert(`${t('alertResult1')}${result.hexagram.name_zh}\n\n${t('alertResult2')}${result.basicAnalysis.corePersonality.slice(0, 100)}...`);
+>>>>>>> 488e24fe74fab8d5f115b7bc2ec3f1b08d53e73f
   };
 
   if (isLoading) {
@@ -220,7 +229,7 @@ const History = () => {
             </button>
             <h1 className="text-3xl font-bold text-slate-900">{t('testHistory')}</h1>
           </div>
-          
+
           <div className="flex items-center space-x-3">
             <button
               onClick={loadHistory}
@@ -229,17 +238,26 @@ const History = () => {
             >
               <RefreshCw className="w-5 h-5" />
             </button>
-            
+
             <button
               onClick={handleExportData}
               className="flex items-center px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-white rounded-lg transition-colors"
             >
+<<<<<<< HEAD
               <Download className="w-4 h-4 mr-2" />
               {t('export')}
             </button>
             
             <label className="flex items-center px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-white rounded-lg transition-colors cursor-pointer">
               <Upload className="w-4 h-4 mr-2" />
+=======
+              <Upload className="w-4 h-4 mr-2" />
+              {t('export')}
+            </button>
+
+            <label className="flex items-center px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-white rounded-lg transition-colors cursor-pointer">
+              <Download className="w-4 h-4 mr-2" />
+>>>>>>> 488e24fe74fab8d5f115b7bc2ec3f1b08d53e73f
               {t('import')}
               <input
                 type="file"
@@ -264,7 +282,7 @@ const History = () => {
                 className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            
+
             <div className="flex items-center space-x-3">
               <div className="flex items-center">
                 <Filter className="w-5 h-5 text-slate-400 mr-2" />
@@ -277,7 +295,7 @@ const History = () => {
                   <option value="hexagram">{t('sortByHexagram')}</option>
                 </select>
               </div>
-              
+
               {filteredHistory.length > 0 && (
                 <div className="flex items-center space-x-2">
                   <button
@@ -286,7 +304,7 @@ const History = () => {
                   >
                     {selectedResults.size === filteredHistory.length ? t('deselectAll') : t('selectAll')}
                   </button>
-                  
+
                   {selectedResults.size > 0 && (
                     <button
                       onClick={handleDeleteSelected}
@@ -307,20 +325,34 @@ const History = () => {
             {history.length === 0 ? (
               <>
                 <FileText className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+<<<<<<< HEAD
                 <h3 className="text-xl font-semibold text-slate-900 mb-2">{t('noTestRecords')}</h3>
                 <p className="text-slate-600 mb-6">{t('noTestRecordsDesc')}</p>
+=======
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">{t('noHistory')}</h3>
+                <p className="text-slate-600 mb-6">{t('historyGetStarted')}</p>
+>>>>>>> 488e24fe74fab8d5f115b7bc2ec3f1b08d53e73f
                 <button
                   onClick={() => navigate('/test')}
                   className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
+<<<<<<< HEAD
                   {t('startTest')}
+=======
+                  {t('test')}
+>>>>>>> 488e24fe74fab8d5f115b7bc2ec3f1b08d53e73f
                 </button>
               </>
             ) : (
               <>
                 <Search className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+<<<<<<< HEAD
                 <h3 className="text-xl font-semibold text-slate-900 mb-2">{t('noMatchingRecords')}</h3>
                 <p className="text-slate-600">{t('noMatchingRecordsDesc')}</p>
+=======
+                  <h3 className="text-xl font-semibold text-slate-900 mb-2">{t('noMatchingRecords')}</h3>
+                  <p className="text-slate-600">{t('noMatchingRecordsDesc')}</p>
+>>>>>>> 488e24fe74fab8d5f115b7bc2ec3f1b08d53e73f
               </>
             )}
           </div>
@@ -341,7 +373,7 @@ const History = () => {
                       onChange={() => handleSelectResult(result.id)}
                       className="mt-1 w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
                     />
-                    
+
                     <div className="flex-1">
                       <div className="flex items-center mb-3">
                         <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center mr-4">
@@ -354,20 +386,26 @@ const History = () => {
                           </p>
                         </div>
                       </div>
-                      
+
                       <p className="text-slate-600 leading-relaxed mb-4">
                         {result.basicAnalysis.corePersonality.slice(0, 150)}...
                       </p>
-                      
+
                       <div className="flex items-center text-sm text-slate-500">
                         <Calendar className="w-4 h-4 mr-1" />
+<<<<<<< HEAD
                         <span className="mr-4">{t('questionCount')}: 10</span>
                         <span>{t('hexagramNumber')}: {result.hexagram.gua_number}</span>
                         <span className="ml-4">{t('confidence')}: {Math.round(result.confidence * 100)}%</span>
+=======
+                        <span className="mr-4">{t('historyQuestions')}</span>
+                        <span>{t('guaNumber')}{result.hexagram.gua_number}</span>
+                        <span className="ml-4">{t('historyConfidence')}{Math.round(result.confidence * 100)}%</span>
+>>>>>>> 488e24fe74fab8d5f115b7bc2ec3f1b08d53e73f
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center space-x-2 ml-4">
                     <button
                       onClick={() => handleViewResult(result)}
@@ -376,7 +414,7 @@ const History = () => {
                     >
                       <Eye className="w-5 h-5" />
                     </button>
-                    
+
                     <button
                       onClick={() => handleDeleteResult(result.id)}
                       className="p-2 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
@@ -400,7 +438,7 @@ const History = () => {
             >
               {t('startNewTest')}
             </button>
-            
+
             <button
               onClick={handleClearAll}
               className="px-6 py-3 border-2 border-red-300 text-red-600 rounded-lg hover:border-red-400 hover:bg-red-50 transition-all duration-200"

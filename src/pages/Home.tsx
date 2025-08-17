@@ -26,8 +26,6 @@ const Home = () => {
     }
   ];
 
-
-
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -40,7 +38,7 @@ const Home = () => {
             <p className="text-xl sm:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto leading-relaxed">
               {t('heroSubtitle')}
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Link
                 to="/test"
@@ -50,7 +48,7 @@ const Home = () => {
                 {t('startTest')}
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
-              
+
               <Link
                 to="/about"
                 className="inline-flex items-center px-8 py-4 border-2 border-slate-300 text-slate-700 font-semibold rounded-xl hover:border-blue-500 hover:text-blue-600 transition-all duration-300"
@@ -106,7 +104,7 @@ const Home = () => {
               {t('coreFeaturesDesc')}
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => {
               const Icon = feature.icon;
@@ -130,8 +128,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">

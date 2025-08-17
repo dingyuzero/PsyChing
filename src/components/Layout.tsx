@@ -64,7 +64,7 @@ const Layout = () => {
                   </Link>
                 );
               })}
-              
+
               {/* 语言切换按钮 */}
               <button
                 onClick={toggleLanguage}
@@ -74,7 +74,7 @@ const Layout = () => {
                 <Globe className="w-4 h-4" />
                 <span>{language === 'zh' ? 'EN' : '中'}</span>
               </button>
-              
+
               {/* 会员按钮 */}
               <button
                 onClick={handleMemberClick}
@@ -119,7 +119,7 @@ const Layout = () => {
                     </Link>
                   );
                 })}
-                
+
                 <button
                   onClick={() => {
                     toggleLanguage();
@@ -130,7 +130,7 @@ const Layout = () => {
                   <Globe className="w-4 h-4" />
                   <span>{language === 'zh' ? 'English' : '中文'}</span>
                 </button>
-                
+
                 <button
                   onClick={() => {
                     handleMemberClick();
@@ -167,9 +167,9 @@ const Layout = () => {
       </footer>
 
       {/* Toast 通知 */}
-      <Toaster 
-        position="top-right" 
-        richColors 
+      <Toaster
+        position="top-right"
+        richColors
         closeButton
         toastOptions={{
           style: {

@@ -184,7 +184,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
   const ConvergenceIcon = convergenceStatus.icon;
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col">
       {/* 增强版进度头部 - 紧凑版 */}
       <div className="bg-white rounded-xl shadow-md border border-slate-200 p-4 mb-3 flex-shrink-0">
         {/* 主要信息行 */}
@@ -194,7 +194,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             <div className={`p-3 rounded-xl ${currentPhaseConfig.bgColor} ${currentPhaseConfig.borderColor} border`}>
               <PhaseIcon className={`w-6 h-6 ${currentPhaseConfig.textColor}`} />
             </div>
-            
+
             <div>
               <h2 className="text-xl font-bold text-slate-900">
                 {currentPhaseConfig.name}
@@ -204,14 +204,14 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-6">
             {/* 时间 */}
             <div className="flex items-center space-x-2 text-slate-600">
               <Clock className="w-5 h-5" />
               <span className="font-mono text-lg">{formatTime(elapsedTime)}</span>
             </div>
-            
+
             {/* 整体置信度 */}
             <div className={`px-4 py-2 rounded-lg ${confidenceLevel.bgColor}`}>
               <div className="flex items-center space-x-2">
@@ -244,7 +244,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                 </p>
               </div>
             </div>
-            
+
             {/* 阶段进度 */}
             <div className="mt-2">
               <div className="flex justify-between text-xs text-slate-600 mb-1">
@@ -252,7 +252,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                 <span>{phaseProgress.current} / {phaseProgress.total}</span>
               </div>
               <div className="w-full bg-slate-200 rounded-full h-1.5">
-                <div 
+                <div
                   className={`h-1.5 rounded-full transition-all duration-500 bg-gradient-to-r ${currentAdaptiveConfig.gradient}`}
                   style={{ width: `${Math.min(phaseProgressPercent, 100)}%` }}
                 ></div>
@@ -271,7 +271,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                   {currentStageConfig.description}
                 </p>
               </div>
-              
+
               {/* 收敛状态 */}
               <div className="flex items-center space-x-2">
                 <ConvergenceIcon className={`w-4 h-4 ${convergenceStatus.color}`} />
@@ -280,7 +280,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                 </span>
               </div>
             </div>
-            
+
             {/* 阶段转换信息 */}
             {stageTransitionInfo && (
               <div className="mt-2 p-2 bg-white rounded-lg border border-slate-200">
@@ -303,7 +303,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             <span className="font-medium">{t('overallProgress') || '总体进度'}</span>
             <span>{Math.round(overallProgress)}% {t('completed') || '完成'}</span>
           </div>
-          
+
           <div className="relative">
             <div className="w-full bg-slate-200 rounded-full h-4 relative overflow-hidden">
               {/* 内在动机阶段 */}
@@ -311,17 +311,17 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                 className={`bg-gradient-to-r ${phaseConfig.inner_motivation.gradient} h-4 rounded-l-full transition-all duration-500 ease-out absolute left-0`}
                 style={{ width: `${Math.min(questionsAnswered * (50 / (totalQuestions / 2)), 50)}%` }}
               ></div>
-              
+
               {/* 外在行为阶段 */}
               <div
                 className={`bg-gradient-to-r ${phaseConfig.outer_behavior.gradient} h-4 rounded-r-full transition-all duration-500 ease-out absolute right-0`}
                 style={{ width: `${Math.max(0, (questionsAnswered - (totalQuestions / 2)) * (50 / (totalQuestions / 2)))}%` }}
               ></div>
-              
+
               {/* 分界线 */}
               <div className="absolute left-1/2 top-0 w-0.5 h-4 bg-white transform -translate-x-0.5"></div>
             </div>
-            
+
             {/* 阶段标签 */}
             <div className="flex justify-between mt-2 text-xs text-slate-500">
               <span className="flex items-center space-x-1">
@@ -346,13 +346,13 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                 {Math.round(confidence.inner_motivation * 100)}%
               </div>
               <div className="w-full bg-blue-100 rounded-full h-1.5 mt-1">
-                <div 
+                <div
                   className="bg-blue-500 h-1.5 rounded-full transition-all duration-500"
                   style={{ width: `${confidence.inner_motivation * 100}%` }}
                 ></div>
               </div>
             </div>
-            
+
             {/* 外在行为置信度 */}
             <div className="text-center">
               <div className="text-xs text-purple-600 font-medium mb-1">{t('outerBehavior') || '外在行为'}</div>
@@ -360,13 +360,13 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                 {Math.round(confidence.outer_behavior * 100)}%
               </div>
               <div className="w-full bg-purple-100 rounded-full h-1.5 mt-1">
-                <div 
+                <div
                   className="bg-purple-500 h-1.5 rounded-full transition-all duration-500"
                   style={{ width: `${confidence.outer_behavior * 100}%` }}
                 ></div>
               </div>
             </div>
-            
+
             {/* 收敛分数 */}
             <div className="text-center">
               <div className="text-xs text-slate-600 font-medium mb-1">{t('convergenceScore') || '收敛分数'}</div>
@@ -374,14 +374,14 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                 {Math.round(convergenceScore * 100)}%
               </div>
               <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
-                <div 
+                <div
                   className="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full transition-all duration-500"
                   style={{ width: `${convergenceScore * 100}%` }}
                 ></div>
               </div>
             </div>
           </div>
-          
+
           {/* 高级指标切换按钮 */}
           <button
             onClick={() => setShowAdvancedMetrics(!showAdvancedMetrics)}
@@ -426,7 +426,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
       </div>
 
       {/* 增强版问题卡片 - 移到上方 */}
-      <div 
+      <div
         key={animationKey}
         className="bg-white rounded-xl shadow-lg border border-slate-200 p-6 transform transition-all duration-500 ease-out flex-shrink-0 mb-3"
         style={{ animation: 'slideInUp 0.5s ease-out' }}
@@ -437,7 +437,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             <h3 className="text-xl font-bold text-slate-900 mb-2 leading-relaxed">
               {language === 'zh' ? currentQuestion.text_zh : currentQuestion.text_en}
             </h3>
-            
+
             {/* 问题元信息 */}
             <div className="flex items-center space-x-4 text-sm text-slate-500">
               <span>ID: {currentQuestion.id}</span>
@@ -449,11 +449,11 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
               )}
             </div>
           </div>
-          
+
           {/* 问题类型标识 */}
           <div className={`px-3 py-1 rounded-lg text-xs font-medium ${
-            currentPhase === 'inner_motivation' 
-              ? 'bg-blue-100 text-blue-700' 
+            currentPhase === 'inner_motivation'
+              ? 'bg-blue-100 text-blue-700'
               : 'bg-purple-100 text-purple-700'
           }`}>
             {currentPhase === 'inner_motivation' ? (t('innerMotivation') || 'Inner Motivation') : (t('outerBehavior') || 'Outer Behavior')}
@@ -495,7 +495,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
                   <span className="text-slate-700 leading-relaxed flex-1">
                     {displayText}
                   </span>
-                  
+
                   {/* 选中指示器 */}
                   {isSelected && (
                     <CheckCircle className={`w-5 h-5 ml-3 ${
@@ -570,7 +570,7 @@ const EnhancedAdaptiveTestInterface: React.FC<EnhancedAdaptiveTestInterfaceProps
             {showProbabilityDistribution ? (t('hideProbabilityChart') || 'Hide Chart') : (t('showProbabilityChart') || 'Show Chart')}
           </button>
         </div>
-        
+
         {/* 概率分布图表 */}
         {showProbabilityDistribution && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full min-h-[320px]">
