@@ -1103,6 +1103,11 @@ export class EnhancedBayesianEngine {
     return this.currentStage;
   }
   
+  // 获取当前测试阶段
+  getCurrentPhase(): TestPhase {
+    return this.currentPhase;
+  }
+  
   // 获取置信度指标
   getConfidenceMetrics() {
     const innerConfidence = Math.max(...Object.values(this.innerMotivationProbs));

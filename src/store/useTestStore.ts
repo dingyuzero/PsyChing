@@ -174,11 +174,15 @@ export const useTestStore = create<TestState>((set, get) => ({
       // 更新增强版贝叶斯引擎概率
       enhancedBayesianEngine.updateProbabilities(answer);
       
+      // 获取当前进度信息（包含phase）
+      const currentProgress = enhancedBayesianEngine.getProgress();
+      
       // 更新会话状态
       const updatedSession: TestSession = {
         ...state.currentSession,
         answers: [...state.currentSession.answers, answer],
         current_question_index: state.currentSession.current_question_index + 1,
+        phase: currentProgress.phase, // 更新当前阶段
         probability_distributions: {
           inner_motivation: enhancedBayesianEngine.getCurrentProbabilities().inner_motivation,
           outer_behavior: enhancedBayesianEngine.getCurrentProbabilities().outer_behavior

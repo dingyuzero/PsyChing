@@ -140,7 +140,7 @@ export const TRIGRAM_WEAPONS: Record<string, CharacterWeapon> = {
     name_en: 'Divine Bow',
     description_zh: '代表灵活和精准，能够适应各种环境和挑战',
     description_en: 'Represents flexibility and precision, adaptable to various environments',
-    icon: 'Bow',
+    icon: 'Target',
     color: 'text-amber-500'
   },
   '坎': {
