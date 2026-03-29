@@ -6,6 +6,7 @@ import Result from '../pages/Result';
 import History from '../pages/History';
 import About from '../pages/About';
 import NotFound from '../pages/NotFound';
+import TimeJourney from '../pages/TimeJourney';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: 'test',
         element: <Test />
+      },
+      {
+        path: 'journey/:scenario',
+        element: <TimeJourney />
       },
       {
         path: 'result',

@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Clock, CheckCircle, Target, Brain } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTestStore } from '../store/useTestStore';
 import { enhancedBayesianEngine } from '../utils/enhancedBayesianEngine';
-import { Question, TestPhase, TestStage } from '../types';
+import { ResultScenario, TestStage } from '../types';
 import AdaptiveTestProgress from '../components/AdaptiveTestProgress';
 import EnhancedAdaptiveTestInterface from '../components/EnhancedAdaptiveTestInterface';
 import ProbabilityVisualization from '../components/ProbabilityVisualization';
+import { getLatestCurrentResult } from '../utils/localStorage';
+import { getScenarioMeta } from '../utils/timePerspective';
 
 const Test = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { t, language } = useLanguage();
   const { 
     currentSession, 
-    currentResult, 
     startTest, 
     submitAnswer, 
     resetTest,
@@ -23,6 +25,14 @@ const Test = () => {
     isLoading: storeLoading,
     testCSVAccess
   } = useTestStore();
+
+  const scenarioParam = searchParams.get('scenario');
+  const scenario: ResultScenario =
+    scenarioParam === 'past' || scenarioParam === 'future' ? scenarioParam : 'current';
+  const fallbackCurrentResult = getLatestCurrentResult();
+  const comparisonBaseResultId =
+    scenario === 'current' ? null : searchParams.get('base') || fallbackCurrentResult?.id || null;
+  const scenarioMeta = getScenarioMeta(scenario, language);
   
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,12 +49,17 @@ const Test = () => {
   
   // 初始化测试
   useEffect(() => {
+    if (scenario !== 'current' && !comparisonBaseResultId) {
+      navigate(`/journey/${scenario}`, { replace: true });
+      return;
+    }
+
     initializeTest();
-  }, []);
+  }, [scenario, comparisonBaseResultId]);
   
   // 调试信息状态
   const [debugInfo, setDebugInfo] = useState<any>(null);
-  const [showDebugPanel, setShowDebugPanel] = useState(true);
+  const [showDebugPanel, setShowDebugPanel] = useState(false);
   
   // 获取调试信息
   const updateDebugInfo = () => {
@@ -169,7 +184,10 @@ const Test = () => {
   const initializeTest = async () => {
     setIsLoading(true);
     try {
-      await startTest();
+      await startTest({
+        scenario,
+        comparisonBaseResultId
+      });
       // 设置开始时间
       setStartTime(Date.now());
       setElapsedTime(0);
@@ -457,6 +475,21 @@ const Test = () => {
         </div>
 
         {/* 调试信息面板 */}
+        {scenario !== 'current' && (
+          <div className={`mb-8 rounded-2xl bg-gradient-to-r ${scenarioMeta.accentClass} p-6 text-white shadow-lg`}>
+            <div className="flex flex-wrap items-center gap-3 mb-3">
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/15 text-sm font-medium">
+                {scenarioMeta.label}
+              </span>
+              <span className="text-sm text-white/80">
+                {language === 'zh' ? '请用这个五年视角完成作答' : 'Answer from this five-year perspective'}
+              </span>
+            </div>
+            <h2 className="text-2xl font-bold mb-2">{scenarioMeta.title}</h2>
+            <p className="text-white/90 leading-relaxed">{scenarioMeta.instruction}</p>
+          </div>
+        )}
+
         {debugInfo && showDebugPanel && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
             <div className="flex items-center justify-between mb-3">

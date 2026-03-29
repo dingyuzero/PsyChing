@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Brain, Sparkles, TrendingUp, ArrowRight, Layers, Zap, Target } from 'lucide-react';
+import { Brain, Sparkles, TrendingUp, ArrowRight, Layers, Clock3, Compass, Target } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Home = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   
   const features = [
     {
@@ -23,6 +23,29 @@ const Home = () => {
       title: t('personalizedAnalysis'),
       description: t('personalizedAnalysisDesc'),
       color: 'from-amber-500 to-orange-500'
+    }
+  ];
+
+  const journeys = [
+    {
+      icon: Clock3,
+      title: language === 'zh' ? '人生回溯' : 'Life Review',
+      description:
+        language === 'zh'
+          ? '回到五年前的自己，用当时的想法和风格作答，看看这些年你经历了怎样的人格变化。'
+          : 'Answer as yourself five years ago and compare that version with who you are now.',
+      to: '/journey/past',
+      color: 'from-amber-500 to-orange-500'
+    },
+    {
+      icon: Compass,
+      title: language === 'zh' ? '未来指引' : 'Future Guide',
+      description:
+        language === 'zh'
+          ? '想象五年后的理想自己，用未来视角作答，并获得当前到未来之间的成长方向建议。'
+          : 'Answer as your ideal future self and get guidance on how to grow from now toward that version.',
+      to: '/journey/future',
+      color: 'from-emerald-500 to-teal-500'
     }
   ];
 
@@ -125,6 +148,75 @@ const Home = () => {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+              {language === 'zh' ? '时空人格入口' : 'Time Perspective Journeys'}
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              {language === 'zh'
+                ? '基于你已经完成的当前人格结果，继续探索五年前的自己，或看见五年后的理想方向。'
+                : 'Start from your current result and explore either your past self or your ideal future self.'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {journeys.map((journey) => {
+              const Icon = journey.icon;
+              return (
+                <Link
+                  key={journey.to}
+                  to={journey.to}
+                  className="group relative overflow-hidden rounded-3xl bg-white border border-slate-200 p-8 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${journey.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+                  <div className="relative">
+                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${journey.color} flex items-center justify-center text-white mb-6`}>
+                      <Icon className="w-7 h-7" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-3">{journey.title}</h3>
+                    <p className="text-slate-600 leading-relaxed mb-6">{journey.description}</p>
+                    <div className="inline-flex items-center text-slate-900 font-semibold group-hover:translate-x-1 transition-transform">
+                      {language === 'zh' ? '进入这个入口' : 'Enter This Journey'}
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-50 to-blue-50 p-8 shadow-sm">
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <span className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
+                Psyching V2.0.1
+              </span>
+              <span className="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-800">
+                {language === 'zh' ? '测试版本' : 'Beta Version'}
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
+              {language === 'zh' ? '版本说明' : 'Version Note'}
+            </h2>
+            <p className="text-slate-700 leading-relaxed mb-3">
+              {language === 'zh'
+                ? 'Psyching V2.0.1 新增了“人生回溯”和“未来指引”两个特色入口，帮助用户从五年前的自己与五年后的理想自己两个时间视角，观察人格卦象的变化与成长方向。'
+                : 'Psyching V2.0.1 introduces two featured journeys, Life Review and Future Guide, letting users explore their hexagram from the perspective of the self five years ago and the ideal self five years ahead.'}
+            </p>
+            <p className="text-slate-600 leading-relaxed">
+              {language === 'zh'
+                ? '当前版本仍为功能测试版本，量表信度、效度以及题目参数会在后续实证阶段继续测试、校验并做微调。'
+                : 'This release is still a feature-testing version. Reliability, validity, and item parameters will be tested, validated, and fine-tuned in a later empirical phase.'}
+            </p>
           </div>
         </div>
       </section>

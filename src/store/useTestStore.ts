@@ -5,14 +5,13 @@ import {
   TestSession, 
   HexagramResult, 
   TestPhase, 
-  TrigramType,
   Language,
-  LocalStorageData 
+  ResultScenario
 } from '../types';
 import { enhancedBayesianEngine } from '../utils/enhancedBayesianEngine';
 import { HexagramAnalysisEngine } from '../utils/hexagramAnalysis';
 import { HexagramMapper } from '../data/hexagramDatabase';
-import { saveToLocalStorage, loadFromLocalStorage } from '../utils/localStorage';
+import { addTestResult, getTestHistory, loadFromLocalStorage } from '../utils/localStorage';
 
 interface TestState {
   // 测试会话状态
@@ -32,7 +31,10 @@ interface TestState {
   isTestActive: boolean;
   
   // 操作方法
-  startTest: () => Promise<void>;
+  startTest: (config?: {
+    scenario?: ResultScenario;
+    comparisonBaseResultId?: string | null;
+  }) => Promise<void>;
   submitAnswer: (optionId: string, responseTime?: number) => Promise<{completed: boolean}>;
   completeTest: () => Promise<void>;
   resetTest: () => void;
@@ -81,8 +83,11 @@ export const useTestStore = create<TestState>((set, get) => ({
   isTestActive: false,
   
   // 开始测试
-  startTest: async () => {
+  startTest: async (config) => {
     try {
+      const scenario = config?.scenario || 'current';
+      const comparisonBaseResultId = config?.comparisonBaseResultId || null;
+
       set({ isLoading: true, error: null, isTestActive: true });
       
       // 等待题库加载完成
@@ -118,6 +123,8 @@ export const useTestStore = create<TestState>((set, get) => ({
         start_time: new Date().toISOString(),
         started_at: new Date().toISOString(),
         phase: 'inner_motivation',
+        scenario,
+        comparisonBaseResultId,
         current_question_index: 0,
         currentQuestion: firstQuestion,
         answers: [],
@@ -253,6 +260,8 @@ export const useTestStore = create<TestState>((set, get) => ({
         id: `result_${Date.now()}`,
         timestamp: Date.now(),
         answers: state.currentSession.answers,
+        scenario: state.currentSession.scenario || 'current',
+        comparisonBaseResultId: state.currentSession.comparisonBaseResultId || null,
         hexagram: {
           id: mainHexagram.id,
           name_zh: mainHexagram.name_zh,
@@ -271,17 +280,8 @@ export const useTestStore = create<TestState>((set, get) => ({
       };
       
       // 保存到本地存储
-      const updatedHistory = [...state.testHistory, hexagramResult];
-      const localData: LocalStorageData = {
-        testHistory: updatedHistory,
-        hexagramResults: updatedHistory,
-        userPreferences: {
-          language: 'zh',
-          theme: 'light'
-        }
-      };
-      
-      saveToLocalStorage(localData);
+      addTestResult(hexagramResult);
+      const updatedHistory = getTestHistory();
       
       set({
         currentResult: hexagramResult,
@@ -314,8 +314,8 @@ export const useTestStore = create<TestState>((set, get) => ({
   loadTestHistory: () => {
     try {
       const localData = loadFromLocalStorage();
-      if (localData && localData.hexagramResults) {
-        set({ testHistory: localData.hexagramResults });
+      if (localData) {
+        set({ testHistory: localData.testHistory });
       }
     } catch (error) {
       set({

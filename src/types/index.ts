@@ -1,6 +1,8 @@
 // 测试阶段类型
 export type TestPhase = 'inner_motivation' | 'outer_behavior';
 
+export type ResultScenario = 'current' | 'past' | 'future';
+
 // 八卦类型
 export type TrigramType = 'qian' | 'kun' | 'zhen' | 'xun' | 'kan' | 'li' | 'gen' | 'dui';
 
@@ -92,6 +94,8 @@ export interface TestSession {
   currentQuestion?: Question;
   answers: TestAnswer[];
   phase: TestPhase;
+  scenario?: ResultScenario;
+  comparisonBaseResultId?: string | null;
   probability_distribution: {
     inner_motivation: Record<TrigramType, number>;
     outer_behavior: Record<TrigramType, number>;
@@ -216,6 +220,8 @@ export interface HexagramResult {
   id: string;
   timestamp: number;
   answers: TestAnswer[];
+  scenario?: ResultScenario;
+  comparisonBaseResultId?: string | null;
   
   // 主卦信息
   hexagram: {
