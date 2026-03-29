@@ -106,7 +106,7 @@ export class EnhancedBayesianEngine {
     try {
       console.log('🔄 Loading enhanced question bank from extended CSV...');
       
-      const response = await fetch('/extended_question_bank.csv');
+      const response = await fetch(`${import.meta.env.BASE_URL}extended_question_bank.csv`);
       if (!response.ok) {
         throw new Error(`Failed to fetch extended CSV: ${response.status} ${response.statusText}`);
       }

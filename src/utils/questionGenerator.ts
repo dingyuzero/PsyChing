@@ -113,7 +113,7 @@ export class BayesianAdaptiveQuestionGenerator {
 
   private async loadQuestionBank() {
     try {
-      const response = await fetch('/question_bank.csv');
+      const response = await fetch(`${import.meta.env.BASE_URL}question_bank.csv`);
       const csvText = await response.text();
       this.parseCSV(csvText);
     } catch (error) {

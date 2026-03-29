@@ -84,7 +84,7 @@ export class BayesianAdaptiveEngine {
       console.log('🔄 Starting to load question bank from CSV...');
       console.log('📍 Fetching from URL: /question_bank.csv');
       
-      const response = await fetch('/question_bank.csv');
+      const response = await fetch(`${import.meta.env.BASE_URL}question_bank.csv`);
       console.log('📡 Fetch response status:', response.status, response.statusText);
       console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
       

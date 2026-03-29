@@ -348,7 +348,7 @@ export const useTestStore = create<TestState>((set, get) => ({
   testCSVAccess: async () => {
     try {
       console.log('🔍 Testing CSV file access...');
-      const response = await fetch('/question_bank.csv');
+      const response = await fetch(`${import.meta.env.BASE_URL}question_bank.csv`);
       
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
