@@ -1,5 +1,6 @@
 import { TRIGRAMS } from '../data/hexagramDatabase';
 import { HexagramResult, Language, ResultScenario, TrigramType } from '../types';
+import { localizeHexagramResult } from './resultLocalization';
 
 export interface ScenarioMeta {
   key: ResultScenario;
@@ -180,6 +181,8 @@ const describeShift = (
 
 const getSharedStrengths = (start: HexagramResult, end: HexagramResult, language: Language) => {
   const isZh = language === 'zh';
+  const localizedStart = localizeHexagramResult(start, language);
+  const localizedEnd = localizeHexagramResult(end, language);
   const items: string[] = [];
 
   if (start.hexagram.lower_trigram === end.hexagram.lower_trigram) {
@@ -200,8 +203,8 @@ const getSharedStrengths = (start: HexagramResult, end: HexagramResult, language
     );
   }
 
-  const sharedTrait = start.basicAnalysis.advantageTraits.find((trait) =>
-    end.basicAnalysis.advantageTraits.includes(trait)
+  const sharedTrait = localizedStart.basicAnalysis.advantageTraits.find((trait) =>
+    localizedEnd.basicAnalysis.advantageTraits.includes(trait)
   );
 
   if (sharedTrait) {
@@ -274,6 +277,9 @@ export const buildScenarioComparison = (
   const copy = getScenarioCopy(scenario, language);
   const start = scenario === 'past' ? scenarioResult : currentResult;
   const end = scenario === 'past' ? currentResult : scenarioResult;
+  const localizedCurrent = localizeHexagramResult(currentResult, language);
+  const localizedScenario = localizeHexagramResult(scenarioResult, language);
+  const localizedEnd = scenario === 'past' ? localizedCurrent : localizedScenario;
   const sharedStrengths = getSharedStrengths(start, end, language);
 
   const highlights = [
@@ -296,26 +302,26 @@ export const buildScenarioComparison = (
 
   const actionFocus =
     scenario === 'future'
-      ? end.detailedAnalysis.developmentSuggestions.slice(0, 3).map((item) =>
+      ? localizedEnd.detailedAnalysis.developmentSuggestions.slice(0, 3).map((item) =>
           isZh ? `如果想靠近未来的自己，现在可以重点练习: ${item}` : `To move toward your future self, practice this now: ${item}`
         )
-      : currentResult.detailedAnalysis.developmentSuggestions.slice(0, 3).map((item) =>
+      : localizedCurrent.detailedAnalysis.developmentSuggestions.slice(0, 3).map((item) =>
           isZh ? `站在现在回看，这条方向仍然值得继续: ${item}` : `Looking back from now, this is still worth continuing: ${item}`
         );
 
   const habitSuggestions =
     scenario === 'future'
       ? [
-          ...currentResult.basicAnalysis.advantageTraits.slice(0, 2).map((item) =>
+          ...localizedCurrent.basicAnalysis.advantageTraits.slice(0, 2).map((item) =>
             isZh ? `继续保持你已经拥有的好习惯与优势: ${item}` : `Keep reinforcing the strength you already have: ${item}`
           ),
-          ...scenarioResult.detailedAnalysis.developmentSuggestions.slice(0, 2).map((item) =>
+          ...localizedScenario.detailedAnalysis.developmentSuggestions.slice(0, 2).map((item) =>
             isZh ? `逐步培养的新习惯方向: ${item}` : `A new habit direction to build gradually: ${item}`
           )
         ]
       : [
           ...sharedStrengths.slice(0, 2),
-          ...currentResult.basicAnalysis.advantageTraits.slice(0, 2).map((item) =>
+          ...localizedCurrent.basicAnalysis.advantageTraits.slice(0, 2).map((item) =>
             isZh ? `这些年形成的优势，值得继续保持: ${item}` : `A strength you have formed over time and should keep: ${item}`
           )
         ];
