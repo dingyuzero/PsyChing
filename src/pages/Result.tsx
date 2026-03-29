@@ -253,9 +253,6 @@ const Result = () => {
                   </div>
 
                   <div className="flex flex-col items-center gap-3 px-2">
-                    <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-white bg-gradient-to-r ${scenarioMeta.accentClass}`}>
-                      {scenarioMeta.label}
-                    </div>
                     <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white border border-slate-200 shadow-sm">
                       <ArrowRight className="w-6 h-6 text-slate-600" />
                     </div>
