@@ -8,39 +8,44 @@ import About from '../pages/About';
 import NotFound from '../pages/NotFound';
 import TimeJourney from '../pages/TimeJourney';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <Layout />,
+      errorElement: <NotFound />,
+      children: [
+        {
+          index: true,
+          element: <Home />
+        },
+        {
+          path: 'test',
+          element: <Test />
+        },
+        {
+          path: 'journey/:scenario',
+          element: <TimeJourney />
+        },
+        {
+          path: 'result',
+          element: <Result />
+        },
+        {
+          path: 'history',
+          element: <History />
+        },
+        {
+          path: 'about',
+          element: <About />
+        }
+      ]
+    }
+  ],
   {
-    path: '/',
-    element: <Layout />,
-    errorElement: <NotFound />,
-    children: [
-      {
-        index: true,
-        element: <Home />
-      },
-      {
-        path: 'test',
-        element: <Test />
-      },
-      {
-        path: 'journey/:scenario',
-        element: <TimeJourney />
-      },
-      {
-        path: 'result',
-        element: <Result />
-      },
-      {
-        path: 'history',
-        element: <History />
-      },
-      {
-        path: 'about',
-        element: <About />
-      }
-    ]
+    basename: import.meta.env.BASE_URL
   }
-]);
+);
 
 export default function Router() {
   return <RouterProvider router={router} />;
