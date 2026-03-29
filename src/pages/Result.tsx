@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   AlertTriangle,
   ArrowLeft,
+  ArrowRight,
   BookOpen,
   Download,
   Heart,
@@ -184,6 +185,24 @@ const Result = () => {
     probabilitySource?.outer_behavior[
       currentResult.hexagram.upper_trigram as keyof typeof probabilitySource.outer_behavior
     ];
+  const fromResult = scenario !== 'current' && comparisonBase
+    ? scenario === 'future'
+      ? comparisonBase
+      : currentResult
+    : null;
+  const toResult = scenario !== 'current' && comparisonBase
+    ? scenario === 'future'
+      ? currentResult
+      : comparisonBase
+    : null;
+  const localizedFromResult = fromResult ? localizeHexagramResult(fromResult, language) : null;
+  const localizedToResult = toResult ? localizeHexagramResult(toResult, language) : null;
+  const fromLabel = scenario === 'future'
+    ? (language === 'zh' ? '当前人格' : 'Current Self')
+    : (language === 'zh' ? '五年前的你' : 'You Five Years Ago');
+  const toLabel = scenario === 'future'
+    ? (language === 'zh' ? '五年后的理想你' : 'Ideal Self in Five Years')
+    : (language === 'zh' ? '现在的你' : 'You Today');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 py-8">
@@ -217,9 +236,50 @@ const Result = () => {
               </div>
             )}
 
-            <div className="inline-flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 mb-5 shadow-lg">
-              {generateHexagramLines(currentResult.hexagram.lines)}
-            </div>
+            {localizedFromResult && localizedToResult ? (
+              <div className="mb-8">
+                <div className="grid gap-4 md:grid-cols-[1fr_auto_1fr] items-center max-w-3xl mx-auto">
+                  <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+                    <div className="text-xs font-semibold tracking-[0.18em] uppercase text-slate-500 mb-4">
+                      {fromLabel}
+                    </div>
+                    <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-sm">
+                      {generateHexagramLines(fromResult.hexagram.lines)}
+                    </div>
+                    <div className="text-2xl font-bold text-slate-900 mb-1">{localizedFromResult.hexagramName}</div>
+                    <div className="text-sm text-slate-500">
+                      {language === 'zh' ? fromResult.hexagram.name_en : fromResult.hexagram.name_zh}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-3 px-2">
+                    <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-white bg-gradient-to-r ${scenarioMeta.accentClass}`}>
+                      {scenarioMeta.label}
+                    </div>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white border border-slate-200 shadow-sm">
+                      <ArrowRight className="w-6 h-6 text-slate-600" />
+                    </div>
+                  </div>
+
+                  <div className="rounded-3xl border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 p-6 shadow-sm">
+                    <div className="text-xs font-semibold tracking-[0.18em] uppercase text-amber-700 mb-4">
+                      {toLabel}
+                    </div>
+                    <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg">
+                      {generateHexagramLines(toResult.hexagram.lines)}
+                    </div>
+                    <div className="text-2xl font-bold text-slate-900 mb-1">{localizedToResult.hexagramName}</div>
+                    <div className="text-sm text-slate-500">
+                      {language === 'zh' ? toResult.hexagram.name_en : toResult.hexagram.name_zh}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="inline-flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 mb-5 shadow-lg">
+                {generateHexagramLines(currentResult.hexagram.lines)}
+              </div>
+            )}
 
             <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">{localizedResult.hexagramName}</h1>
             <p className="text-lg text-slate-600 mb-4">{alternateHexagramName}</p>
